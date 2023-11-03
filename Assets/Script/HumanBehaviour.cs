@@ -20,10 +20,13 @@ public class HumanBehaviour : MonoBehaviour
     void Update()
     {   
         RunFB(KeyCode.W, "RunF", 1); // Run Forward
-        RunFB(KeyCode.S, "RunB", -1); // Run Backward
         RunSideWays(KeyCode.W, KeyCode.A, "RunL"); // Run Forward Left
         RunSideWays(KeyCode.W, KeyCode.D, "RunR"); // Run Forward Right
         
+        RunFB(KeyCode.S, "RunB", -1); // Run Backward
+        RunSideWays(KeyCode.S, KeyCode.A, "RunBL"); // Run Backward Left
+        RunSideWays(KeyCode.S, KeyCode.D, "RunBR"); // Run Backward Right
+
         GoSideways(KeyCode.A, "GoLeft", -1); // Go Left
         GoSideways(KeyCode.D, "GoRight", 1); // Go Right
     }
