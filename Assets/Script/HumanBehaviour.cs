@@ -8,6 +8,8 @@ public class HumanBehaviour : MonoBehaviour
 {
     private readonly float run_speed = 5.0f;
     private readonly float walk_speed = 2.0f;
+    private readonly float sprint_speed = 6.0f;
+
     private Animator animator;
 
     // Start is called before the first frame update
@@ -29,6 +31,8 @@ public class HumanBehaviour : MonoBehaviour
 
         GoSideways(KeyCode.A, "GoLeft", -1); // Go Left
         GoSideways(KeyCode.D, "GoRight", 1); // Go Right
+
+        Sprint(); //Sprint Forward
     }
 
     void RunFB(KeyCode key, string name, int direction)
@@ -69,6 +73,20 @@ public class HumanBehaviour : MonoBehaviour
         if (Input.GetKeyUp(key))
         {
             animator.SetBool(name, false);
+        }
+    }
+
+    void Sprint()
+    {
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.position += transform.forward * sprint_speed * Time.deltaTime;
+            animator.SetBool("Sprint", true);
+
+        }
+        else
+        {
+            animator.SetBool("Sprint", false);
         }
     }
 }
