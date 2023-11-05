@@ -5,16 +5,14 @@ using static UnityEngine.UI.Image;
 
 public class CollisionCheck : MonoBehaviour
 {
-    private float max_distance = 0.2f;
+    private float max_distance = 1.5f;
 
     private Animator animator;
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         FireFallingRay(); //Check if player is falling

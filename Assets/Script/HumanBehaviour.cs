@@ -6,19 +6,18 @@ using UnityEngine;
 
 public class HumanBehaviour : MonoBehaviour
 {
-    private readonly float run_speed = 5.0f;
     private readonly float walk_speed = 2.0f;
+    private readonly float run_speed = 5.0f;
     private readonly float sprint_speed = 6.0f;
+    private readonly float roll_speed = 0.5f;
 
     private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {   
         RunFB(KeyCode.W, "RunF", 1); // Run Forward
@@ -29,17 +28,27 @@ public class HumanBehaviour : MonoBehaviour
         RunSideWays(KeyCode.S, KeyCode.A, "RunBL"); // Run Backward Left
         RunSideWays(KeyCode.S, KeyCode.D, "RunBR"); // Run Backward Right
 
-        GoSideways(KeyCode.A, "GoLeft", -1); // Go Left
-        GoSideways(KeyCode.D, "GoRight", 1); // Go Right
+        GoSideways(KeyCode.A, KeyCode.D, "GoLeft", -1); // Go Left
+        GoSideways(KeyCode.D, KeyCode.A, "GoRight", 1); // Go Right
 
-        Sprint(); //Sprint Forward
+        Sprint(); // Sprint Forward
+
+        RollFB(KeyCode.W, KeyCode.Space, "RollF", 1); // Roll Forward
+        RollFB(KeyCode.S, KeyCode.Space, "RollB", -1); // Roll Backward
     }
 
     void RunFB(KeyCode key, string name, int direction)
     {
         if (Input.GetKey(key))
         {
-            transform.position += transform.forward * direction * run_speed * Time.deltaTime;
+            if (animator.GetBool("PunchL"))
+            {
+                transform.position += transform.forward * direction * walk_speed * Time.deltaTime;
+            }
+            else 
+            {
+                transform.position += transform.forward * direction * run_speed * Time.deltaTime;
+            }
             animator.SetBool(name, true);
 
         }
@@ -62,15 +71,14 @@ public class HumanBehaviour : MonoBehaviour
         }
     }
 
-    void GoSideways(KeyCode key, string name, int direction)
+    void GoSideways(KeyCode key, KeyCode wrongKey, string name, int direction)
     {
-        if (Input.GetKey(key))
+        if (Input.GetKey(key) && !Input.GetKey(wrongKey))
         {
             transform.position += transform.right * direction * walk_speed * Time.deltaTime;
             animator.SetBool(name, true);
         }
-
-        if (Input.GetKeyUp(key))
+        else
         {
             animator.SetBool(name, false);
         }
@@ -87,6 +95,19 @@ public class HumanBehaviour : MonoBehaviour
         else
         {
             animator.SetBool("Sprint", false);
+        }
+    }
+
+    void RollFB(KeyCode key1, KeyCode key2, string name, int direction)
+    {
+        if(Input.GetKey(key1) && Input.GetKey(key2))
+        {
+            transform.position += transform.forward * roll_speed * direction * Time.deltaTime;
+            animator.SetBool(name, true);
+        }
+        else
+        {
+            animator.SetBool(name, false);
         }
     }
 }
