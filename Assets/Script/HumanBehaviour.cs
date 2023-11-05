@@ -20,13 +20,13 @@ public class HumanBehaviour : MonoBehaviour
 
     void Update()
     {   
-        RunFB(KeyCode.W, "RunF", 1); // Run Forward
-        RunSideWays(KeyCode.W, KeyCode.A, "RunL"); // Run Forward Left
-        RunSideWays(KeyCode.W, KeyCode.D, "RunR"); // Run Forward Right
+        RunFB(KeyCode.W, KeyCode.S, "RunF", 1); // Run Forward
+        RunSideWays(KeyCode.W, KeyCode.A, KeyCode.D, "RunL"); // Run Forward Left
+        RunSideWays(KeyCode.W, KeyCode.D, KeyCode.A, "RunR"); // Run Forward Right
         
-        RunFB(KeyCode.S, "RunB", -1); // Run Backward
-        RunSideWays(KeyCode.S, KeyCode.A, "RunBL"); // Run Backward Left
-        RunSideWays(KeyCode.S, KeyCode.D, "RunBR"); // Run Backward Right
+        RunFB(KeyCode.S, KeyCode.W, "RunB", -1); // Run Backward
+        RunSideWays(KeyCode.S, KeyCode.A, KeyCode.D, "RunBL"); // Run Backward Left
+        RunSideWays(KeyCode.S, KeyCode.D, KeyCode.A, "RunBR"); // Run Backward Right
 
         GoSideways(KeyCode.A, KeyCode.D, "GoLeft", -1); // Go Left
         GoSideways(KeyCode.D, KeyCode.A, "GoRight", 1); // Go Right
@@ -37,9 +37,9 @@ public class HumanBehaviour : MonoBehaviour
         RollFB(KeyCode.S, KeyCode.Space, "RollB", -1); // Roll Backward
     }
 
-    void RunFB(KeyCode key, string name, int direction)
+    void RunFB(KeyCode key, KeyCode falseKey, string name, int direction)
     {
-        if (Input.GetKey(key))
+        if (Input.GetKey(key) && !Input.GetKey(falseKey))
         {
             if (animator.GetBool("PunchL"))
             {
@@ -52,17 +52,23 @@ public class HumanBehaviour : MonoBehaviour
             animator.SetBool(name, true);
 
         }
-
-        if (Input.GetKeyUp(key))
+        else
         {
             animator.SetBool(name, false);
         }
     }
-    void RunSideWays(KeyCode key1, KeyCode key2, string name)
+    void RunSideWays(KeyCode key1, KeyCode key2, KeyCode falseKey, string name)
     {
         if (Input.GetKey(key1) && Input.GetKey(key2))
         {
-            animator.SetBool(name, true);
+            if (!Input.GetKey(falseKey))
+            {
+                animator.SetBool(name, true);
+            }
+            else
+            {
+                animator.SetBool(name, false);
+            }
 
         }
         else
@@ -71,9 +77,9 @@ public class HumanBehaviour : MonoBehaviour
         }
     }
 
-    void GoSideways(KeyCode key, KeyCode wrongKey, string name, int direction)
+    void GoSideways(KeyCode key, KeyCode falseKey, string name, int direction)
     {
-        if (Input.GetKey(key) && !Input.GetKey(wrongKey))
+        if (Input.GetKey(key) && !Input.GetKey(falseKey))
         {
             transform.position += transform.right * direction * walk_speed * Time.deltaTime;
             animator.SetBool(name, true);
