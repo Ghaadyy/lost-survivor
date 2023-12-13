@@ -11,6 +11,8 @@ public class HumanBehaviour : MonoBehaviour
     private readonly float sprint_speed = 6.0f;
     private readonly float roll_speed = 0.5f;
 
+    [Range(1, 3)] public float SpeedMultiplier = 1;
+
     private Animator animator;
 
     void Start()
@@ -19,11 +21,11 @@ public class HumanBehaviour : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
         RunFB(KeyCode.W, KeyCode.S, "RunF", 1); // Run Forward
         RunSideWays(KeyCode.W, KeyCode.A, KeyCode.D, "RunL"); // Run Forward Left
         RunSideWays(KeyCode.W, KeyCode.D, KeyCode.A, "RunR"); // Run Forward Right
-        
+
         RunFB(KeyCode.S, KeyCode.W, "RunB", -1); // Run Backward
         RunSideWays(KeyCode.S, KeyCode.A, KeyCode.D, "RunBL"); // Run Backward Left
         RunSideWays(KeyCode.S, KeyCode.D, KeyCode.A, "RunBR"); // Run Backward Right
@@ -41,7 +43,7 @@ public class HumanBehaviour : MonoBehaviour
     {
         if (Input.GetKey(key) && !Input.GetKey(falseKey))
         {
-            transform.position += transform.forward * direction * run_speed * Time.deltaTime;
+            transform.position += transform.forward * direction * run_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool(name, true);
 
         }
@@ -74,7 +76,7 @@ public class HumanBehaviour : MonoBehaviour
     {
         if (Input.GetKey(key) && !Input.GetKey(falseKey))
         {
-            transform.position += transform.right * direction * walk_speed * Time.deltaTime;
+            transform.position += transform.right * direction * walk_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool(name, true);
         }
         else
@@ -87,7 +89,7 @@ public class HumanBehaviour : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
         {
-            transform.position += transform.forward * sprint_speed * Time.deltaTime;
+            transform.position += transform.forward * sprint_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool("Sprint", true);
 
         }
@@ -99,9 +101,9 @@ public class HumanBehaviour : MonoBehaviour
 
     void RollFB(KeyCode key1, KeyCode key2, string name, int direction)
     {
-        if(Input.GetKey(key1) && Input.GetKey(key2))
+        if (Input.GetKey(key1) && Input.GetKey(key2))
         {
-            transform.position += transform.forward * roll_speed * direction * Time.deltaTime;
+            transform.position += transform.forward * roll_speed * SpeedMultiplier * direction * Time.deltaTime;
             animator.SetBool(name, true);
         }
         else
