@@ -14,7 +14,6 @@ public class HealthBar : MonoBehaviour
 
     public int damage;
 
-    // Start is called before the first frame update
     void Start()
     {
         current = max;
@@ -26,7 +25,6 @@ public class HealthBar : MonoBehaviour
         damage = 10;
     }
 
-    // Update is called once per frame
     void Update()
     {
         TakeDamage();
@@ -41,7 +39,7 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    private void TakeDamage()
+    private void TakeDamage() //Test health bar
     {
         if(Input.GetKeyDown(KeyCode.Alpha6)) {
             current -= damage;

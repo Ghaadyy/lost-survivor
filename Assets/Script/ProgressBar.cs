@@ -33,7 +33,7 @@ public class ProgressBar : MonoBehaviour
         mask.fillAmount = fillBar;
     }
 
-    void IncrementXP()
+    void IncrementXP() //Test progress bar
     {
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {

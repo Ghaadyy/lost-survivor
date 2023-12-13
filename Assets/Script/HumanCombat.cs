@@ -26,11 +26,11 @@ public class HumanCombat : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray();
-        cooldownText = GameObject.FindGameObjectsWithTag("Cooldown").OrderBy(t => t.name).ToArray();
+        abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray(); //Get all spells images
+        cooldownText = GameObject.FindGameObjectsWithTag("Cooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
         
-        abilitiesCooldown = new float[abilitiesCount] { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
-        currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+        abilitiesCooldown = new float[abilitiesCount] { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f }; //Original cooldown of each ability
+        currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
         for(int i=0; i<abilitiesCount; i++)
         {
             Debug.Log(abilitiesImages[i].name + " " + cooldownText[i].name);
@@ -75,7 +75,7 @@ public class HumanCombat : MonoBehaviour
 
     void Heal()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && currentAbilityCooldown[0] <= 0)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && currentAbilityCooldown[0] <= 0) //If ability ready then execute it and reset its cooldown counter
         {
             currentAbilityCooldown[0] = abilitiesCooldown[0];
         }
@@ -116,9 +116,9 @@ public class HumanCombat : MonoBehaviour
 
     void UpdateCooldown()
     {
-        for(int i=0; i<abilitiesCount; i++)
+        for(int i=0; i<abilitiesCount; i++) //For each ability do the following
         {
-            if (currentAbilityCooldown[i] > 0)
+            if (currentAbilityCooldown[i] > 0) //Decrement ability cooldown if possible
             {
                 currentAbilityCooldown[i] -= Time.deltaTime;
                 ChangeImageColor(abilitiesImages[i].GetComponent<Image>(), Color.gray);
@@ -158,6 +158,12 @@ public class HumanCombat : MonoBehaviour
     {
         animator.SetBool("Attack", false);
     }
+
+
+
+
+
+
 
     //private void ToggleLastCombo()
     //{
