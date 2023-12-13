@@ -1,31 +1,129 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    private float range = 10;
-    private float attackRange = 4;
-    private float speed = 4;
+    [SerializeField][Range(1, 30)] private float sightRange = 20;
+
+    [SerializeField][Range(1, 30)] private float attackRange = 10;
+
+    [SerializeField] private float speed = 4;
 
     private Animator animator;
+    private FloatingHealthBar healthBar;
 
-    // Start is called before the first frame update
+    private bool isAttacking = false;
+
+    private Vector3 destination;
+    private bool walkPointSet = false;
+    public float patrolRange = 10;
+
+    public GameObject Ragdoll;
+
+    public LayerMask whatIsGround, whatIsObstruction;
+
+    private void Awake()
+    {
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
-        animator = GetComponent<Animator>();
+
+    }
+
+    private void Patrol()
+    {
+        animator.SetBool("walk", true);
+
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+        }
+
+        if (walkPointSet)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, 0.5f * speed * Time.deltaTime);
+            transform.LookAt(destination);
+        }
+
+        // Arrived to destination
+        if (transform.position == destination)
+        {
+            animator.SetBool("walk", false);
+            walkPointSet = false;
+        }
+    }
+
+    private void SearchWalkPoint()
+    {
+        float randomZ = Random.Range(-patrolRange, patrolRange);
+        float randomX = Random.Range(-patrolRange, patrolRange);
+
+        destination = new Vector3(
+            transform.position.x + randomX,
+            transform.position.y,
+            transform.position.z + randomZ);
+
+        if (Physics.Raycast(destination, -transform.up, whatIsGround))
+        {
+            walkPointSet = true;
+        }
+    }
+
+    void Die()
+    {
+        gameObject.SetActive(false);
+        // Ragdoll.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-        Collider[] attackCol = Physics.OverlapSphere(transform.position, attackRange);
-
-        if (attackCol.Any(col => col.gameObject.tag == "Player"))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            foreach (Collider col in attackCol)
+            Die();
+        }
+
+        CheckAttackRange();
+        CheckSightRange();
+    }
+
+    void CheckSightRange()
+    {
+        if (isAttacking)
+        {
+            animator.SetBool("walk", false);
+            return;
+        }
+
+        Collider[] sight = Physics.OverlapSphere(transform.position, sightRange);
+
+        if (sight.Any(col => col.gameObject.tag == "Player"))
+        {
+            foreach (Collider col in sight)
+            {
+                if (col.gameObject.tag == "Player")
+                {
+                    ChasePlayer(col.gameObject.transform.position);
+                }
+            }
+        }
+        else
+        {
+            animator.SetBool("walk", false);
+            Patrol();
+        }
+    }
+
+    void CheckAttackRange()
+    {
+        Collider[] attackable = Physics.OverlapSphere(transform.position, attackRange);
+
+        if (attackable.Any(col => col.gameObject.tag == "Player"))
+        {
+            foreach (Collider col in attackable)
             {
                 if (col.gameObject.tag == "Player")
                 {
@@ -37,27 +135,31 @@ public class EnemyBehaviour : MonoBehaviour
         {
             StopAttack();
         }
+    }
 
-        if (colliders.Any(col => col.gameObject.tag == "Player"))
+    void ChasePlayer(Vector3 playerPosition)
+    {
+        if (transform.position == playerPosition)
         {
-            foreach (Collider col in colliders)
-            {
-                if (col.gameObject.tag == "Player")
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, col.gameObject.transform.position, speed * Time.deltaTime);
-                    transform.LookAt(col.transform);
-                }
-            }
+            animator.SetBool("walk", false);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, playerPosition, speed * Time.deltaTime);
+            transform.LookAt(playerPosition);
+            animator.SetBool("walk", true);
         }
     }
 
     void Attack()
     {
         animator.SetBool("attack", true);
+        isAttacking = true;
     }
 
     void StopAttack()
     {
         animator.SetBool("attack", false);
+        isAttacking = false;
     }
 }

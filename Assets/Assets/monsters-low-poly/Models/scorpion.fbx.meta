@@ -57,14 +57,14 @@ ModelImporter:
       takeName: Attack
       internalID: 6720303635017113406
       firstFrame: 0
-      lastFrame: 13.000001
+      lastFrame: 13
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -122,7 +122,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -173,14 +173,14 @@ ModelImporter:
       takeName: Walk
       internalID: 2667949614841947897
       firstFrame: 0
-      lastFrame: 13.000001
+      lastFrame: 13
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
