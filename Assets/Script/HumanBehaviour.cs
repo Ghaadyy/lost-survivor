@@ -41,14 +41,7 @@ public class HumanBehaviour : MonoBehaviour
     {
         if (Input.GetKey(key) && !Input.GetKey(falseKey))
         {
-            if (animator.GetBool("PunchL"))
-            {
-                transform.position += transform.forward * direction * walk_speed * Time.deltaTime;
-            }
-            else 
-            {
-                transform.position += transform.forward * direction * run_speed * Time.deltaTime;
-            }
+            transform.position += transform.forward * direction * run_speed * Time.deltaTime;
             animator.SetBool(name, true);
 
         }

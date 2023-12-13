@@ -14,12 +14,15 @@ public class HumanCombat : MonoBehaviour
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
 
-    private string originalImageColor = "FFFFFF";
-    private string onCooldownImageColor = "5A5A5A";
+    //private string originalImageColor = "FFFFFF";
+    //private string onCooldownImageColor = "5A5A5A";
 
     private const int abilitiesCount = 5;
     private float[] abilitiesCooldown;
     private float[] currentAbilityCooldown;
+
+    //private int comboCount;
+    //private bool isLastComboValid;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -32,6 +35,9 @@ public class HumanCombat : MonoBehaviour
         {
             Debug.Log(abilitiesImages[i].name + " " + cooldownText[i].name);
         }
+
+        //comboCount = 0;
+        //isLastComboValid = false;
     }
 
     void Update()
@@ -50,7 +56,8 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("PunchL");
+
+            animator.SetBool("Attack", true);
         }
     }
 
@@ -140,4 +147,21 @@ public class HumanCombat : MonoBehaviour
     {
         cd.text = "";
     }
+
+
+
+
+
+    //Animation events
+
+    private void DisableNextComboAttack()
+    {
+        animator.SetBool("Attack", false);
+    }
+
+    //private void ToggleLastCombo()
+    //{
+    //    animator.SetBool("LastCombo", isLastComboValid);
+    //    isLastComboValid = !isLastComboValid;
+    //}
 }
