@@ -41,12 +41,22 @@ public class HealthBar : MonoBehaviour
 
     private void TakeDamage() //Test health bar
     {
-        if(Input.GetKeyDown(KeyCode.Alpha6)) {
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
             current -= damage;
-            if(current < 0)
+            if (current < 0)
             {
                 current = min;
             }
+        }
+    }
+
+    public void DecreaseHealth()
+    {
+        current -= damage;
+        if (current < 0)
+        {
+            current = min;
         }
     }
 }

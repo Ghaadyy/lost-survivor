@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5252644866741150927}
   - component: {fileID: 5299197779846886881}
-  - component: {fileID: 5594954340834658641}
+  - component: {fileID: 8115275258136667384}
   m_Layer: 0
-  m_Name: HitSphere
+  m_Name: EnemySphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,9 +52,9 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5594954340834658641
+--- !u!114 &8115275258136667384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,6 +63,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4952079577944167708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a73b1dfef9cb19b438d73e30efc1496d, type: 3}
+  m_Script: {fileID: 11500000, guid: d68c1adab27a840bfa36eaff09db92f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

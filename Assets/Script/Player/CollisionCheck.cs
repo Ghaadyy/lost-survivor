@@ -13,7 +13,6 @@ public class CollisionCheck : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        HitSphere.GetComponent<MeshRenderer>().enabled = true;
     }
 
     void Update()
@@ -27,7 +26,7 @@ public class CollisionCheck : MonoBehaviour
         Vector3 down = -transform.up;
         Ray ray = new Ray(position, down);
         RaycastHit hitData;
-        if(Physics.Raycast(ray, out hitData, max_distance))
+        if (Physics.Raycast(ray, out hitData, max_distance))
         {
             animator.SetBool("Falling", false);
         }
