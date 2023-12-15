@@ -7,18 +7,21 @@ public class CollisionCheck : MonoBehaviour
 {
     private float max_distance = 1.5f;
 
+    public GameObject HitSphere, HitPt;
+
     private Animator animator;
     void Start()
     {
         animator = GetComponent<Animator>();
+        HitSphere.GetComponent<MeshRenderer>().enabled = true;
     }
 
     void Update()
     {
-        FireFallingRay(); //Check if player is falling
+        FireFallingRay();
     }
 
-    void FireFallingRay()
+    void FireFallingRay() //Check if player is falling
     {
         Vector3 position = transform.position;
         Vector3 down = -transform.up;
@@ -32,5 +35,14 @@ public class CollisionCheck : MonoBehaviour
         {
             animator.SetBool("Falling", true);
         }
+    }
+
+
+
+    //Animation events
+
+    private void InstantiateHitSphere()
+    {
+        Instantiate(HitSphere, HitPt.transform.position, Quaternion.identity);
     }
 }

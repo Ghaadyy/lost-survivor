@@ -86,6 +86,11 @@ public class EnemyBehaviour : MonoBehaviour
             Die();
         }
 
+        if(healthBar.CheckIfDead())
+        {
+            Die();
+        }
+
         CheckAttackRange();
         CheckSightRange();
     }
