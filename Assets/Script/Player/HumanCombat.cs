@@ -21,6 +21,9 @@ public class HumanCombat : MonoBehaviour
     private float[] abilitiesCooldown;
     private float[] currentAbilityCooldown;
 
+    private bool inCombat;
+    private float inCombatCooldown;
+
     //private int comboCount;
     //private bool isLastComboValid;
     void Start()
@@ -36,6 +39,9 @@ public class HumanCombat : MonoBehaviour
             Debug.Log(abilitiesImages[i].name + " " + cooldownText[i].name);
         }
 
+        inCombat = false;
+        inCombatCooldown = 0.0f;
+
         //comboCount = 0;
         //isLastComboValid = false;
     }
@@ -43,6 +49,7 @@ public class HumanCombat : MonoBehaviour
     void Update()
     {
         UpdateCooldown();
+        UpdateOnCombatStatus();
         Heal();
         Buff();
         CastSpell();
@@ -58,6 +65,7 @@ public class HumanCombat : MonoBehaviour
         {
 
             animator.SetBool("Attack", true);
+            inCombat = true;
         }
     }
 
@@ -146,6 +154,24 @@ public class HumanCombat : MonoBehaviour
     private void ChangeCooldownText(TMP_Text cd)
     {
         cd.text = "";
+    }
+
+    private void UpdateOnCombatStatus()
+    {
+        if (inCombat)
+        {
+            ResetCombatCooldown();
+        }
+
+        if(inCombatCooldown > 0)
+        {
+            inCombatCooldown -= Time.deltaTime;
+        }
+    }
+
+    private void ResetCombatCooldown()
+    {
+        inCombatCooldown = 5.0f;
     }
 
 
