@@ -3,10 +3,11 @@ using System.Collections;
 
 public class EnemyCombat : MonoBehaviour
 {
+    public float damage;
     // Use this for initialization
     void Start()
     {
-
+        damage = -10.0f;
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class EnemyCombat : MonoBehaviour
             Debug.Log("collided with player");
             HealthBar healthBar = GameObject.FindObjectOfType<HealthBar>();
             Debug.Log(healthBar);
-            healthBar.DecreaseHealth();
+            healthBar.SetHealth(damage);
         }
     }
 }

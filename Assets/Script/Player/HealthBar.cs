@@ -51,12 +51,21 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void DecreaseHealth()
+    public void SetHealth(float value)
     {
-        current -= damage;
-        if (current < 0)
+        current += value;
+        if (current < min)
         {
             current = min;
         }
+        else if(current > max)
+        {
+            current = max;
+        }
+    }
+
+    public float GetMaxHealth()
+    {
+        return max;
     }
 }

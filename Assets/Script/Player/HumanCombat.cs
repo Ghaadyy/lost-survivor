@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class HumanCombat : MonoBehaviour
 {
     private Animator animator;
+    private HealthBar healthBar;
 
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
@@ -21,26 +22,59 @@ public class HumanCombat : MonoBehaviour
     private float[] abilitiesCooldown;
     private float[] currentAbilityCooldown;
 
-    private bool inCombat;
-    private float inCombatCooldown;
+    private int buffsCount = 3; //Strength, Healing, Protection
+    private float[] buffsCooldown;
+
+    private float damage = 10.0f;
+    private float strength = 1.0f;
+    private float heal = 0.1f;
+    private float protection = 0.0f;
+
+    public float GetPlayerDamage()
+    {
+        return strength * damage;
+    }
+
+    private void Buff_UpdateStrength()
+    {
+        if (buffsCooldown[0] > 0)
+        {
+            if (strength != 2) strength = 2;
+        }
+        else
+        {
+            if(strength != 1) strength = 1;
+        }
+    }
+
+    private void Buff_UpdateHealth()
+    {
+        if (buffsCooldown[1] > 0)
+        {
+            healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
+        }
+    }
+
+    //private bool inCombat;
+    //private float inCombatCooldown;
 
     //private int comboCount;
     //private bool isLastComboValid;
     void Start()
     {
         animator = GetComponent<Animator>();
+        healthBar = GameObject.FindObjectOfType<HealthBar>();
+
         abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray(); //Get all spells images
         cooldownText = GameObject.FindGameObjectsWithTag("Cooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
         
         abilitiesCooldown = new float[abilitiesCount] { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f }; //Original cooldown of each ability
         currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
-        for(int i=0; i<abilitiesCount; i++)
-        {
-            Debug.Log(abilitiesImages[i].name + " " + cooldownText[i].name);
-        }
 
-        inCombat = false;
-        inCombatCooldown = 0.0f;
+        buffsCooldown = new float[buffsCount]; //Buffs cooldown
+
+        //inCombat = false;
+        //inCombatCooldown = 0.0f;
 
         //comboCount = 0;
         //isLastComboValid = false;
@@ -48,8 +82,11 @@ public class HumanCombat : MonoBehaviour
 
     void Update()
     {
-        UpdateCooldown();
-        UpdateOnCombatStatus();
+        UpdateAbilitiesCooldown();
+        UpdateBuffsCooldown();
+        Buff_UpdateStrength();
+        Buff_UpdateHealth();
+
         Heal();
         Buff();
         CastSpell();
@@ -57,6 +94,7 @@ public class HumanCombat : MonoBehaviour
         ShakeGround();
         Punch();
         Block();
+
     }
 
     void Punch()
@@ -65,7 +103,7 @@ public class HumanCombat : MonoBehaviour
         {
 
             animator.SetBool("Attack", true);
-            inCombat = true;
+            //inCombat = true;
         }
     }
 
@@ -86,6 +124,7 @@ public class HumanCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && currentAbilityCooldown[0] <= 0) //If ability ready then execute it and reset its cooldown counter
         {
             currentAbilityCooldown[0] = abilitiesCooldown[0];
+            healthBar.SetHealth(healthBar.GetMaxHealth() * 0.25f); //Heals 25% of max health
         }
     }
 
@@ -95,6 +134,10 @@ public class HumanCombat : MonoBehaviour
         {
             animator.SetTrigger("Buff");
             currentAbilityCooldown[1] = abilitiesCooldown[1];
+            buffsCooldown[0] = 10.0f; //Apply strength buff
+            buffsCooldown[1] = 10.0f; //Apply healing overtime buff
+            Debug.Log("Strength buff activated");
+            Debug.Log("Healing buff activated");
         }
     }
 
@@ -122,7 +165,7 @@ public class HumanCombat : MonoBehaviour
         }
     }
 
-    void UpdateCooldown()
+    void UpdateAbilitiesCooldown()
     {
         for(int i=0; i<abilitiesCount; i++) //For each ability do the following
         {
@@ -137,6 +180,17 @@ public class HumanCombat : MonoBehaviour
                 ChangeImageColor(abilitiesImages[i].GetComponent<Image>(), Color.white);
                 ChangeCooldownText(cooldownText[i].GetComponent<TMP_Text>());
 
+            }
+        }
+    }
+
+    void UpdateBuffsCooldown()
+    {
+        for (int i = 0; i < buffsCount; i++)
+        {
+            if (buffsCooldown[i] > 0)
+            {
+                buffsCooldown[i] -= Time.deltaTime;
             }
         }
     }
@@ -156,23 +210,23 @@ public class HumanCombat : MonoBehaviour
         cd.text = "";
     }
 
-    private void UpdateOnCombatStatus()
-    {
-        if (inCombat)
-        {
-            ResetCombatCooldown();
-        }
+    //private void UpdateOnCombatStatus()
+    //{
+    //    if (inCombat)
+    //    {
+    //        ResetCombatCooldown();
+    //    }
 
-        if(inCombatCooldown > 0)
-        {
-            inCombatCooldown -= Time.deltaTime;
-        }
-    }
+    //    if(inCombatCooldown > 0)
+    //    {
+    //        inCombatCooldown -= Time.deltaTime;
+    //    }
+    //}
 
-    private void ResetCombatCooldown()
-    {
-        inCombatCooldown = 5.0f;
-    }
+    //private void ResetCombatCooldown()
+    //{
+    //    inCombatCooldown = 5.0f;
+    //}
 
 
 
