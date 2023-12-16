@@ -30,6 +30,13 @@ public class HumanCombat : MonoBehaviour
     private float heal = 0.1f;
     private float protection = 0.0f;
 
+    private bool isDead = false;
+
+    public bool CheckIfDead()
+    {
+        return isDead;
+    }
+
     public float GetPlayerDamage()
     {
         return strength * damage;
@@ -87,13 +94,18 @@ public class HumanCombat : MonoBehaviour
         Buff_UpdateStrength();
         Buff_UpdateHealth();
 
-        Heal();
-        Buff();
-        CastSpell();
-        Immune();
-        ShakeGround();
-        Punch();
-        Block();
+        if (!isDead)
+        {
+            Heal();
+            Buff();
+            CastSpell();
+            Immune();
+            ShakeGround();
+            Punch();
+            Block();
+        }
+
+        Die();
 
     }
 
@@ -162,6 +174,24 @@ public class HumanCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5) && currentAbilityCooldown[4] <= 0)
         {
             currentAbilityCooldown[4] = abilitiesCooldown[4];
+        }
+    }
+
+    void Die()
+    {
+        if(healthBar.GetHealth() == 0)
+        {
+            isDead = true;
+            animator.SetBool("Die", isDead);
+        }
+    }
+
+    void Revive()
+    {
+        if (isDead)
+        {
+            isDead = false;
+            animator.SetBool("Die", isDead);
         }
     }
 

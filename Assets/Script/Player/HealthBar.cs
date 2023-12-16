@@ -64,6 +64,11 @@ public class HealthBar : MonoBehaviour
         }
     }
 
+    public float GetHealth()
+    {
+        return current;
+    }
+
     public float GetMaxHealth()
     {
         return max;
