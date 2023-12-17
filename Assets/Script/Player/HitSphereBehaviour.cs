@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class HitSphereBehaviour : MonoBehaviour
 {
+    private HumanCombat player;
+    void Start()
+    {
+        player = GameObject.FindObjectOfType<HumanCombat>();
+    }
     void Update()
     {
         Destroy(gameObject, 0.25f);
@@ -17,7 +22,7 @@ public class HitSphereBehaviour : MonoBehaviour
             FloatingHealthBar enemy = obj.GetComponentInChildren<FloatingHealthBar>();
             if (enemy != null)
             {
-                enemy.SetHealthBar(-10);
+                enemy.SetHealthBar(player.GetPlayerDamage() * -1);
             }
         }
     }
