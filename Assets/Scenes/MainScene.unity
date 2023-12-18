@@ -50053,6 +50053,14 @@ PrefabInstance:
       propertyPath: SpellCastPoint
       value: 
       objectReference: {fileID: 2111684106}
+    - target: {fileID: 3391342930959168239, guid: f760b77ec38c80547b011388056558fb, type: 3}
+      propertyPath: fireBallEffect
+      value: 
+      objectReference: {fileID: 100008, guid: 6c3353a8896aec94c9bbd525f8fb033e, type: 3}
+    - target: {fileID: 3391342930959168239, guid: f760b77ec38c80547b011388056558fb, type: 3}
+      propertyPath: ExplosionEffect
+      value: 
+      objectReference: {fileID: 100006, guid: ab9e3de25e2f95e48b9353a295bb942b, type: 3}
     - target: {fileID: 3769463356609742138, guid: f760b77ec38c80547b011388056558fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.26

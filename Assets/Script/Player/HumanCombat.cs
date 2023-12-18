@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class HumanCombat : MonoBehaviour
 {
     public GameObject SpellCastPoint, FireSphere;
-
+    public GameObject fireBallEffect, ExplosionEffect;
     private Animator animator;
     private HealthBar healthBar;
 
@@ -227,6 +227,8 @@ public class HumanCombat : MonoBehaviour
         // Detect all colliders within the explosion radius
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
+        Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+
         foreach (Collider col in colliders)
         {
             // Check if the object has a rigidbody
@@ -317,6 +319,7 @@ public class HumanCombat : MonoBehaviour
     {
         GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
         sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+        Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
     }
 
