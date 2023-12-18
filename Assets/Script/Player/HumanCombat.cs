@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class HumanCombat : MonoBehaviour
 {
+    public GameObject SpellCastPoint, FireSphere;
+
     private Animator animator;
     private HealthBar healthBar;
 
@@ -31,10 +33,19 @@ public class HumanCombat : MonoBehaviour
     private float protection = 0.0f;
 
     private bool isDead = false;
+    private bool isImmune = false;
+
+    private float explosionForce = 20.0f;
+    private float explosionRadius = 10.0f;
 
     public bool CheckIfDead()
     {
         return isDead;
+    }
+
+    public bool CheckIfImmune()
+    {
+        return isImmune;
     }
 
     public float GetPlayerDamage()
@@ -59,6 +70,18 @@ public class HumanCombat : MonoBehaviour
         if (buffsCooldown[1] > 0)
         {
             healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
+        }
+    }
+
+    private void Immune_Update()
+    {
+        if (buffsCooldown[2] > 0)
+        {
+            if(!isImmune) isImmune = true;
+        }
+        else
+        {
+            if (isImmune) isImmune = false;
         }
     }
 
@@ -93,6 +116,7 @@ public class HumanCombat : MonoBehaviour
         UpdateBuffsCooldown();
         Buff_UpdateStrength();
         Buff_UpdateHealth();
+        Immune_Update();
 
         if (!isDead)
         {
@@ -157,7 +181,7 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha3) && currentAbilityCooldown[2] <= 0)
         {
-            currentAbilityCooldown[2] = abilitiesCooldown[2];
+            animator.SetTrigger("Cast");
         }
     }
 
@@ -165,6 +189,8 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha4) && currentAbilityCooldown[3] <= 0)
         {
+            isImmune = true;
+            buffsCooldown[2] = 10.0f; //Apply immune factor
             currentAbilityCooldown[3] = abilitiesCooldown[3];
         }
     }
@@ -173,6 +199,7 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha5) && currentAbilityCooldown[4] <= 0)
         {
+            addExplosionForce();
             currentAbilityCooldown[4] = abilitiesCooldown[4];
         }
     }
@@ -192,6 +219,23 @@ public class HumanCombat : MonoBehaviour
         {
             isDead = false;
             animator.SetBool("Die", isDead);
+        }
+    }
+
+    void addExplosionForce()
+    {
+        // Detect all colliders within the explosion radius
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        foreach (Collider col in colliders)
+        {
+            // Check if the object has a rigidbody
+            if (col.gameObject.tag == "Enemy" && col.TryGetComponent(out Rigidbody rb))
+            {
+                // Apply explosion force to the rigidbody
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
+                rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce);
+            }
         }
     }
 
@@ -269,7 +313,12 @@ public class HumanCombat : MonoBehaviour
         animator.SetBool("Attack", false);
     }
 
-
+    private void ReleaseSpell()
+    {
+        GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
+        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+        currentAbilityCooldown[2] = abilitiesCooldown[2];
+    }
 
 
 

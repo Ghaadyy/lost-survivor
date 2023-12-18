@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private Slider slider;
+    private HumanCombat player;
 
     public float min = 0;
     public float max = 100;
@@ -23,6 +24,8 @@ public class HealthBar : MonoBehaviour
         slider.value = current;
 
         damage = 10;
+
+        player = FindObjectOfType<HumanCombat>();
     }
 
     void Update()
@@ -53,6 +56,8 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(float value)
     {
+        if (player.CheckIfImmune() && value < 0) return;
+
         current += value;
         if (current < min)
         {
