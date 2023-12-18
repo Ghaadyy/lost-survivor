@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpellBehaviour : MonoBehaviour
 {
-    [SerializeField][Range(0, 50)] private float Speed = 10.0f;
     private float damage = -30;
     void Start()
     {
@@ -12,7 +11,6 @@ public class SpellBehaviour : MonoBehaviour
     }
     void Update()
     {
-        //transform.position = transform.forward * 1 * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)

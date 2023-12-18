@@ -17,9 +17,6 @@ public class HumanCombat : MonoBehaviour
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
 
-    //private string originalImageColor = "FFFFFF";
-    //private string onCooldownImageColor = "5A5A5A";
-
     private const int abilitiesCount = 5;
     private float[] abilitiesCooldown;
     private float[] currentAbilityCooldown;
@@ -38,58 +35,6 @@ public class HumanCombat : MonoBehaviour
     private float explosionForce = 20.0f;
     private float explosionRadius = 10.0f;
 
-    public bool CheckIfDead()
-    {
-        return isDead;
-    }
-
-    public bool CheckIfImmune()
-    {
-        return isImmune;
-    }
-
-    public float GetPlayerDamage()
-    {
-        return strength * damage;
-    }
-
-    private void Buff_UpdateStrength()
-    {
-        if (buffsCooldown[0] > 0)
-        {
-            if (strength != 2) strength = 2;
-        }
-        else
-        {
-            if(strength != 1) strength = 1;
-        }
-    }
-
-    private void Buff_UpdateHealth()
-    {
-        if (buffsCooldown[1] > 0)
-        {
-            healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
-        }
-    }
-
-    private void Immune_Update()
-    {
-        if (buffsCooldown[2] > 0)
-        {
-            if(!isImmune) isImmune = true;
-        }
-        else
-        {
-            if (isImmune) isImmune = false;
-        }
-    }
-
-    //private bool inCombat;
-    //private float inCombatCooldown;
-
-    //private int comboCount;
-    //private bool isLastComboValid;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -102,12 +47,6 @@ public class HumanCombat : MonoBehaviour
         currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
 
         buffsCooldown = new float[buffsCount]; //Buffs cooldown
-
-        //inCombat = false;
-        //inCombatCooldown = 0.0f;
-
-        //comboCount = 0;
-        //isLastComboValid = false;
     }
 
     void Update()
@@ -222,6 +161,52 @@ public class HumanCombat : MonoBehaviour
         }
     }
 
+    public bool CheckIfDead()
+    {
+        return isDead;
+    }
+
+    public bool CheckIfImmune()
+    {
+        return isImmune;
+    }
+
+    public float GetPlayerDamage()
+    {
+        return strength * damage;
+    }
+
+    private void Buff_UpdateStrength()
+    {
+        if (buffsCooldown[0] > 0)
+        {
+            if (strength != 2) strength = 2;
+        }
+        else
+        {
+            if (strength != 1) strength = 1;
+        }
+    }
+
+    private void Buff_UpdateHealth()
+    {
+        if (buffsCooldown[1] > 0)
+        {
+            healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
+        }
+    }
+
+    private void Immune_Update()
+    {
+        if (buffsCooldown[2] > 0)
+        {
+            if (!isImmune) isImmune = true;
+        }
+        else
+        {
+            if (isImmune) isImmune = false;
+        }
+    }
     void addExplosionForce()
     {
         // Detect all colliders within the explosion radius
@@ -286,26 +271,6 @@ public class HumanCombat : MonoBehaviour
         cd.text = "";
     }
 
-    //private void UpdateOnCombatStatus()
-    //{
-    //    if (inCombat)
-    //    {
-    //        ResetCombatCooldown();
-    //    }
-
-    //    if(inCombatCooldown > 0)
-    //    {
-    //        inCombatCooldown -= Time.deltaTime;
-    //    }
-    //}
-
-    //private void ResetCombatCooldown()
-    //{
-    //    inCombatCooldown = 5.0f;
-    //}
-
-
-
 
 
     //Animation events
@@ -322,14 +287,4 @@ public class HumanCombat : MonoBehaviour
         Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
     }
-
-
-
-
-
-    //private void ToggleLastCombo()
-    //{
-    //    animator.SetBool("LastCombo", isLastComboValid);
-    //    isLastComboValid = !isLastComboValid;
-    //}
 }
