@@ -10,9 +10,13 @@ public class CollisionCheck : MonoBehaviour
     public GameObject HitSphere, HitPt;
 
     private Animator animator;
+
+    private AudioSource[] source;
+    private int source_idx = 0;
     void Start()
     {
         animator = GetComponent<Animator>();
+        source = GetComponents<AudioSource>();  
     }
 
     void Update()
@@ -43,5 +47,11 @@ public class CollisionCheck : MonoBehaviour
     private void InstantiateHitSphere()
     {
         Instantiate(HitSphere, HitPt.transform.position, Quaternion.identity);
+        if(source_idx > 2)
+        {
+            source_idx = 0;
+        }
+        source[source_idx].Play();
+        source_idx++;
     }
 }

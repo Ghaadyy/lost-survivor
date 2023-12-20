@@ -12,6 +12,8 @@ public class HumanCombat : MonoBehaviour
 {
     public GameObject SpellCastPoint, FireSphere;
     public GameObject fireBallEffect, ExplosionEffect;
+    public AudioSource fireBallAudio;
+
     private Animator animator;
     private HealthBar healthBar;
 
@@ -56,6 +58,8 @@ public class HumanCombat : MonoBehaviour
         {
             buff.SetActive(false);
         }
+
+        fireBallAudio = SpellCastPoint.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -325,9 +329,15 @@ public class HumanCombat : MonoBehaviour
 
     private void ReleaseSpell()
     {
+        animator.SetBool("Attack", false);
         GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
         sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 3000);
-        GameObject fireBall = Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
+        Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
+    }
+
+    private void PlaySpellCastingAudio()
+    {
+        fireBallAudio.Play();
     }
 }

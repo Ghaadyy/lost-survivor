@@ -13,13 +13,19 @@ public class HumanBehaviour : MonoBehaviour
 
     [Range(1, 3)] public float SpeedMultiplier = 1;
 
+    private float runningTime = 0;
+
     private Animator animator;
     private HumanCombat player;
+    private AudioSource[] source;
+
+    private const int breath_idx = 3;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindObjectOfType<HumanCombat>();
+        source = GetComponents<AudioSource>();
     }
 
     void Update()
@@ -41,6 +47,8 @@ public class HumanBehaviour : MonoBehaviour
 
             RollFB(KeyCode.W, KeyCode.Space, "RollF", 1); // Roll Forward
             RollFB(KeyCode.S, KeyCode.Space, "RollB", -1); // Roll Backward
+
+            CheckRunningTime(); //Check if the player have been running for more than 3 seconds
         }
     }
 
@@ -96,11 +104,20 @@ public class HumanBehaviour : MonoBehaviour
         {
             transform.position += transform.forward * sprint_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool("Sprint", true);
+            runningTime += Time.deltaTime;
 
         }
         else
         {
             animator.SetBool("Sprint", false);
+            if(runningTime > 0)
+            {
+                runningTime -= Time.deltaTime;
+            }
+            else
+            {
+                runningTime = 0;
+            }
         }
     }
 
@@ -114,6 +131,18 @@ public class HumanBehaviour : MonoBehaviour
         else
         {
             animator.SetBool(name, false);
+        }
+    }
+
+    void CheckRunningTime()
+    {
+        Debug.Log(runningTime);
+        if(runningTime > 10)
+        {
+            if (!source[breath_idx].isPlaying)
+            {
+                source[breath_idx].Play();
+            }
         }
     }
 }
