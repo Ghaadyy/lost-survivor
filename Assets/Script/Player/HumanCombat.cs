@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class HumanCombat : MonoBehaviour
 
     private int buffsCount = 3; //Strength, Healing, Protection
     private float[] buffsCooldown;
+    private GameObject[] buffsImages;
+    private GameObject[] buffsCooldownText;
 
     private float damage = 10.0f;
     private float strength = 1.0f;
@@ -41,12 +44,18 @@ public class HumanCombat : MonoBehaviour
         healthBar = GameObject.FindObjectOfType<HealthBar>();
 
         abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray(); //Get all spells images
-        cooldownText = GameObject.FindGameObjectsWithTag("Cooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
+        cooldownText = GameObject.FindGameObjectsWithTag("SpellCooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
         
-        abilitiesCooldown = new float[abilitiesCount] { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f }; //Original cooldown of each ability
+        abilitiesCooldown = new float[abilitiesCount] { 20.0f, 25.0f, 5.0f, 50.0f, 10.0f }; //Original cooldown of each ability
         currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
 
         buffsCooldown = new float[buffsCount]; //Buffs cooldown
+        buffsImages = GameObject.FindGameObjectsWithTag("Buff").OrderBy(a => a.name).ToArray(); //Get buff images
+        buffsCooldownText = GameObject.FindGameObjectsWithTag("BuffCooldown").OrderBy(a => a.name).ToArray(); //Get cooldown of each buff
+        foreach(GameObject buff in buffsImages)
+        {
+            buff.SetActive(false);
+        }
     }
 
     void Update()
@@ -221,7 +230,7 @@ public class HumanCombat : MonoBehaviour
             {
                 // Apply explosion force to the rigidbody
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
-                rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce);
+                rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce * strength);
             }
         }
     }
@@ -234,7 +243,7 @@ public class HumanCombat : MonoBehaviour
             {
                 currentAbilityCooldown[i] -= Time.deltaTime;
                 ChangeImageColor(abilitiesImages[i].GetComponent<Image>(), Color.gray);
-                ChangeCooldownText(cooldownText[i].GetComponent<TMP_Text>(), i);
+                ChangeCooldownText(cooldownText[i].GetComponent<TMP_Text>(), i, currentAbilityCooldown);
             }
             else
             {
@@ -252,8 +261,42 @@ public class HumanCombat : MonoBehaviour
             if (buffsCooldown[i] > 0)
             {
                 buffsCooldown[i] -= Time.deltaTime;
+                if (!buffsImages[i].activeSelf) buffsImages[i].SetActive(true);
+                ChangeCooldownText(buffsCooldownText[i].GetComponent<TMP_Text>(), i, buffsCooldown);
+            }
+            else
+            {
+                if (buffsImages[i].activeSelf) buffsImages[i].SetActive(false);                 
+                ChangeCooldownText(buffsCooldownText[i].GetComponent<TMP_Text>());
             }
         }
+
+        ChangeBuffPlace();
+    }
+
+    void ChangeBuffPlace()
+    {
+        int initial = 30;
+        int JumpBy = 30;
+
+        int count = 0;
+
+        for(int i=0; i<buffsCount; i++)
+        {
+            if (buffsCooldown[i] > 0)
+            {
+                Debug.Log("Changing... " + i);
+                buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, 485, 0);
+                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, 460, 0);
+
+                count++;
+            }
+        }
+    }
+
+    public void ApplyOutsideBuff(int buffIndex)
+    {
+        buffsCooldown[buffIndex] = 10.0f; //Apply given buff
     }
 
     private void ChangeImageColor(Image image, Color color)
@@ -261,9 +304,9 @@ public class HumanCombat : MonoBehaviour
         image.color = color;
     }
 
-    private void ChangeCooldownText(TMP_Text cd, int idx)
+    private void ChangeCooldownText(TMP_Text cd, int idx, float[] arr)
     {
-        cd.text = Convert.ToInt32(currentAbilityCooldown[idx]).ToString();
+        cd.text = Convert.ToInt32(arr[idx]).ToString();
     }
 
     private void ChangeCooldownText(TMP_Text cd)
@@ -283,8 +326,8 @@ public class HumanCombat : MonoBehaviour
     private void ReleaseSpell()
     {
         GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
-        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
-        Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
+        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 3000);
+        GameObject fireBall = Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
     }
 }

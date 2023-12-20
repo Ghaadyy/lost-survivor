@@ -8,6 +8,11 @@ TagManager:
   - Cooldown
   - Enemy
   - Spell
+  - Buff
+  - BuffsContainer
+  - SpellCooldown
+  - BuffCooldown
+  - SpellsContainer
   layers:
   - Default
   - TransparentFX
