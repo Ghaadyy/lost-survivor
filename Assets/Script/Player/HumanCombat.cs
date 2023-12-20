@@ -9,14 +9,13 @@ using UnityEngine.UI;
 
 public class HumanCombat : MonoBehaviour
 {
+    public GameObject SpellCastPoint, FireSphere;
+    public GameObject fireBallEffect, ExplosionEffect;
     private Animator animator;
     private HealthBar healthBar;
 
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
-
-    //private string originalImageColor = "FFFFFF";
-    //private string onCooldownImageColor = "5A5A5A";
 
     private const int abilitiesCount = 5;
     private float[] abilitiesCooldown;
@@ -31,42 +30,11 @@ public class HumanCombat : MonoBehaviour
     private float protection = 0.0f;
 
     private bool isDead = false;
+    private bool isImmune = false;
 
-    public bool CheckIfDead()
-    {
-        return isDead;
-    }
+    private float explosionForce = 20.0f;
+    private float explosionRadius = 10.0f;
 
-    public float GetPlayerDamage()
-    {
-        return strength * damage;
-    }
-
-    private void Buff_UpdateStrength()
-    {
-        if (buffsCooldown[0] > 0)
-        {
-            if (strength != 2) strength = 2;
-        }
-        else
-        {
-            if(strength != 1) strength = 1;
-        }
-    }
-
-    private void Buff_UpdateHealth()
-    {
-        if (buffsCooldown[1] > 0)
-        {
-            healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
-        }
-    }
-
-    //private bool inCombat;
-    //private float inCombatCooldown;
-
-    //private int comboCount;
-    //private bool isLastComboValid;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -79,12 +47,6 @@ public class HumanCombat : MonoBehaviour
         currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
 
         buffsCooldown = new float[buffsCount]; //Buffs cooldown
-
-        //inCombat = false;
-        //inCombatCooldown = 0.0f;
-
-        //comboCount = 0;
-        //isLastComboValid = false;
     }
 
     void Update()
@@ -93,6 +55,7 @@ public class HumanCombat : MonoBehaviour
         UpdateBuffsCooldown();
         Buff_UpdateStrength();
         Buff_UpdateHealth();
+        Immune_Update();
 
         if (!isDead)
         {
@@ -157,7 +120,7 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha3) && currentAbilityCooldown[2] <= 0)
         {
-            currentAbilityCooldown[2] = abilitiesCooldown[2];
+            animator.SetTrigger("Cast");
         }
     }
 
@@ -165,6 +128,8 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha4) && currentAbilityCooldown[3] <= 0)
         {
+            isImmune = true;
+            buffsCooldown[2] = 10.0f; //Apply immune factor
             currentAbilityCooldown[3] = abilitiesCooldown[3];
         }
     }
@@ -173,6 +138,7 @@ public class HumanCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha5) && currentAbilityCooldown[4] <= 0)
         {
+            addExplosionForce();
             currentAbilityCooldown[4] = abilitiesCooldown[4];
         }
     }
@@ -192,6 +158,71 @@ public class HumanCombat : MonoBehaviour
         {
             isDead = false;
             animator.SetBool("Die", isDead);
+        }
+    }
+
+    public bool CheckIfDead()
+    {
+        return isDead;
+    }
+
+    public bool CheckIfImmune()
+    {
+        return isImmune;
+    }
+
+    public float GetPlayerDamage()
+    {
+        return strength * damage;
+    }
+
+    private void Buff_UpdateStrength()
+    {
+        if (buffsCooldown[0] > 0)
+        {
+            if (strength != 2) strength = 2;
+        }
+        else
+        {
+            if (strength != 1) strength = 1;
+        }
+    }
+
+    private void Buff_UpdateHealth()
+    {
+        if (buffsCooldown[1] > 0)
+        {
+            healthBar.SetHealth(healthBar.GetMaxHealth() * heal * Time.deltaTime);
+        }
+    }
+
+    private void Immune_Update()
+    {
+        if (buffsCooldown[2] > 0)
+        {
+            if (!isImmune) isImmune = true;
+        }
+        else
+        {
+            if (isImmune) isImmune = false;
+        }
+    }
+    void addExplosionForce()
+    {
+        // Detect all colliders within the explosion radius
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+
+        foreach (Collider col in colliders)
+        {
+            // Check if the object has a rigidbody
+            if (col.gameObject.tag == "Enemy" && col.TryGetComponent(out Rigidbody rb))
+            {
+                // Apply explosion force to the rigidbody
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
+                rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce);
+            }
         }
     }
 
@@ -240,26 +271,6 @@ public class HumanCombat : MonoBehaviour
         cd.text = "";
     }
 
-    //private void UpdateOnCombatStatus()
-    //{
-    //    if (inCombat)
-    //    {
-    //        ResetCombatCooldown();
-    //    }
-
-    //    if(inCombatCooldown > 0)
-    //    {
-    //        inCombatCooldown -= Time.deltaTime;
-    //    }
-    //}
-
-    //private void ResetCombatCooldown()
-    //{
-    //    inCombatCooldown = 5.0f;
-    //}
-
-
-
 
 
     //Animation events
@@ -269,15 +280,11 @@ public class HumanCombat : MonoBehaviour
         animator.SetBool("Attack", false);
     }
 
-
-
-
-
-
-
-    //private void ToggleLastCombo()
-    //{
-    //    animator.SetBool("LastCombo", isLastComboValid);
-    //    isLastComboValid = !isLastComboValid;
-    //}
+    private void ReleaseSpell()
+    {
+        GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
+        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+        Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
+        currentAbilityCooldown[2] = abilitiesCooldown[2];
+    }
 }
