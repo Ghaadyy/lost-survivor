@@ -294,6 +294,11 @@ public class HumanCombat : MonoBehaviour
         }
     }
 
+    public void ApplyOutsideBuff(int buffIndex)
+    {
+        buffsCooldown[buffIndex] = 10.0f; //Apply given buff
+    }
+
     private void ChangeImageColor(Image image, Color color)
     {
         image.color = color;
@@ -321,7 +326,7 @@ public class HumanCombat : MonoBehaviour
     private void ReleaseSpell()
     {
         GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
-        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 3000);
         GameObject fireBall = Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
     }

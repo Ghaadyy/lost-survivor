@@ -28,8 +28,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7041903176749653327}
   - {fileID: 3744143614541066576}
+  - {fileID: 7041903176749653327}
   - {fileID: 8229408297372854985}
   m_Father: {fileID: 6175944656146838296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 6117568553993772589}
   - component: {fileID: 5830901892843742214}
   m_Layer: 5
-  m_Name: 1_HealingBuff
+  m_Name: 2_HealingBuff
   m_TagString: Buff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -387,8 +387,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2240901666079214137}
   - {fileID: 663111288390907776}
+  - {fileID: 2240901666079214137}
   - {fileID: 1773812468586309335}
   m_Father: {fileID: 6175944656146838296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 631683475525145414}
   - component: {fileID: 2759755696056260369}
   m_Layer: 5
-  m_Name: 2_StrengthBuff
+  m_Name: 1_StrengthBuff
   m_TagString: Buff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 1120312066278638480}
   - component: {fileID: 7026082927873624739}
   m_Layer: 5
-  m_Name: 2_Strength
+  m_Name: 1_Strength
   m_TagString: BuffCooldown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 4496452108319453143}
   - component: {fileID: 2743958392959250422}
   m_Layer: 5
-  m_Name: 1_Healing
+  m_Name: 2_Healing
   m_TagString: BuffCooldown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

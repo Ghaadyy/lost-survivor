@@ -22,6 +22,7 @@ public class CrystalBehaviour : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             var player = other.gameObject.GetComponent<HumanBehaviour>();
+            var playerCombat = other.gameObject.GetComponent<HumanCombat>();   
 
             switch (buffType)
             {
@@ -31,7 +32,7 @@ public class CrystalBehaviour : MonoBehaviour
                     break;
                 case BuffType.Strength:
                     Debug.Log("Strength Buff !");
-                    // Strength multiplier here or any other ability
+                    playerCombat.ApplyOutsideBuff(0);
                     break;
             }
 

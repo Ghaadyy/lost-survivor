@@ -12,6 +12,7 @@ TagManager:
   - BuffsContainer
   - SpellCooldown
   - BuffCooldown
+  - SpellsContainer
   layers:
   - Default
   - TransparentFX
