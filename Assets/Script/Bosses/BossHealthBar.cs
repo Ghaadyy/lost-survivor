@@ -14,7 +14,7 @@ public class BossHealthBar : MonoBehaviour
     private void Start()
     {
         slider = gameObject.GetComponent<Slider>();
-        currentHealth = maxHealth = 100;
+        currentHealth = maxHealth = 500;
         minHealth = 0;
 
         slider.maxValue = maxHealth;

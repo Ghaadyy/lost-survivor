@@ -43,15 +43,22 @@ public class GameManager : MonoBehaviour
     {
         bool isDead = bool.Parse(PlayerPrefs.GetString("Boss" + idx, "false"));
 
-        if (render && !isDead)
+        if (isDead)
         {
-            if (!Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(true);
-            MouseRotation.LockCursor();
+            if (Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(false);
         }
         else
         {
-            if (Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(false);
-            MouseRotation.UnlockCursor();
+            if (render)
+            {
+                if (!Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(true);
+                MouseRotation.LockCursor();
+            }
+            else
+            {
+                if (Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(false);
+                MouseRotation.UnlockCursor();
+            }
         }
     }
 

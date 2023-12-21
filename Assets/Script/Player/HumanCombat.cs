@@ -344,7 +344,7 @@ public class HumanCombat : MonoBehaviour
             if (buffsCooldown[i] > 0)
             {
                 buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y, 0);
-                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y, 0);
+                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y - 40, 0);
 
                 count++;
             }
