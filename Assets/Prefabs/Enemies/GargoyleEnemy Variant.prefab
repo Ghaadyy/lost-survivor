@@ -1881,6 +1881,7 @@ MonoBehaviour:
   speed: 4
   patrolRange: 10
   Ragdoll: {fileID: 7011142432443423206}
+  Experience: 20
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128

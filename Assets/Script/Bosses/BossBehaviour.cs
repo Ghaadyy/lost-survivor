@@ -45,12 +45,15 @@ public class BossBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (bossHealthBar.CheckIfDead())
-            Die();
+        if (GameManager.Instance.GameState == GameState.GamePlay)
+        {
+            if (bossHealthBar.CheckIfDead())
+                Die();
 
-        if (!isDead) ShowHealthBar();
-        CheckAttackRange();
-        CheckSightRange();
+            if (!isDead) ShowHealthBar();
+            CheckAttackRange();
+            CheckSightRange();
+        }
     }
 
     void ShowHealthBar()

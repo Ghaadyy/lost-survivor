@@ -30,14 +30,17 @@ public class EnemySpanwer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer <= 0 && Spawned < AmountToSpawn)
+        if (GameManager.Instance.GameState == GameState.GamePlay)
         {
-            Debug.Log("Spawned Enemy!");
-            Instantiate(Enemies[Random.Range(0, Enemies.Count)], gameObject.transform.position, Quaternion.identity);
-            Spawned++;
-            timer = Frequency;
-        }
+            if (timer <= 0 && Spawned < AmountToSpawn)
+            {
+                Debug.Log("Spawned Enemy!");
+                Instantiate(Enemies[Random.Range(0, Enemies.Count)], gameObject.transform.position, Quaternion.identity);
+                Spawned++;
+                timer = Frequency;
+            }
 
-        timer -= Time.deltaTime;
+            timer -= Time.deltaTime;
+        }
     }
 }

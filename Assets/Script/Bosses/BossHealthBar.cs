@@ -27,7 +27,10 @@ public class BossHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateHealthBar();
+        if (GameManager.Instance.GameState == GameState.GamePlay)
+        {
+            UpdateHealthBar();
+        }
     }
 
     public void UpdateHealthBar()

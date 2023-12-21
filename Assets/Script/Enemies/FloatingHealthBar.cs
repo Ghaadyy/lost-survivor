@@ -34,9 +34,12 @@ public class FloatingHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Camera.main.transform.rotation;
-        transform.position = target.position + offset;
-        UpdateHealthBar();
+        if (GameManager.Instance.GameState == GameState.GamePlay)
+        {
+            transform.rotation = Camera.main.transform.rotation;
+            transform.position = target.position + offset;
+            UpdateHealthBar();
+        }
     }
 
     public void UpdateHealthBar()
@@ -52,12 +55,12 @@ public class FloatingHealthBar : MonoBehaviour
     public void SetHealthBar(float value)
     {
         currentHealth += value;
-        if(currentHealth <= minHealth)
+        if (currentHealth <= minHealth)
         {
             currentHealth = 0;
             isDead = true;
         }
-        else if(currentHealth > maxHealth)
+        else if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }

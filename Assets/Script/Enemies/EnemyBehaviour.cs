@@ -20,6 +20,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public GameObject Ragdoll;
 
+    public int Experience = 10;
+
     public LayerMask whatIsGround, whatIsObstruction;
 
     private float StuckTimer = 0;
@@ -93,23 +95,29 @@ public class EnemyBehaviour : MonoBehaviour
             Ragdoll.SetActive(true);
             Ragdoll.transform.parent = null;
         }
+        var progressBar = GameObject.FindObjectOfType<ProgressBar>();
+
+        progressBar.IncrementXP(Experience);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (GameManager.Instance.GameState == GameState.GamePlay)
         {
-            Die();
-        }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Die();
+            }
 
-        if (healthBar.CheckIfDead())
-        {
-            Die();
-        }
+            if (healthBar.CheckIfDead())
+            {
+                Die();
+            }
 
-        CheckAttackRange();
-        CheckSightRange();
+            CheckAttackRange();
+            CheckSightRange();
+        }
     }
 
     void CheckSightRange()

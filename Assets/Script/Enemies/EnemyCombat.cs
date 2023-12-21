@@ -13,7 +13,10 @@ public class EnemyCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Destroy(gameObject, 0.25f);
+        if (GameManager.Instance.GameState == GameState.GamePlay)
+        {
+            Destroy(gameObject, 0.25f);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
