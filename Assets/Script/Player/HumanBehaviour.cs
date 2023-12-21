@@ -142,7 +142,6 @@ public class HumanBehaviour : MonoBehaviour
 
     void CheckRunningTime()
     {
-        Debug.Log(runningTime);
         if(runningTime > 10)
         {
             if (!source[breath_idx].isPlaying)

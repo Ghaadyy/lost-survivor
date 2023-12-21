@@ -15,11 +15,11 @@ public class HumanCombat : MonoBehaviour
     public AudioSource fireBallAudio;
 
     private Animator animator;
+
     private HealthBar healthBar;
 
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
-
     private const int abilitiesCount = 5;
     private float[] abilitiesCooldown;
     private float[] currentAbilityCooldown;
@@ -31,6 +31,7 @@ public class HumanCombat : MonoBehaviour
 
     private float damage = 10.0f;
     private float strength = 1.0f;
+    private float copyStrength = 1.0f;
     private float heal = 0.1f;
     private float protection = 0.0f;
 
@@ -39,6 +40,8 @@ public class HumanCombat : MonoBehaviour
 
     private float explosionForce = 20.0f;
     private float explosionRadius = 10.0f;
+
+    private int playerLevel = 1;
 
     void Start()
     {
@@ -192,16 +195,40 @@ public class HumanCombat : MonoBehaviour
     {
         return strength * damage;
     }
+    public float GetPlayerLevel()
+    {
+        return playerLevel;
+    }
+
+    public void IncrementPlayerLevel()
+    {
+        playerLevel++;
+    }
+
+    public float GetPlayerStrength()
+    {
+        return strength;
+    }
+
+    public void SetPlayerStrength(float value)
+    {
+        strength += value;
+        copyStrength = strength;
+        if (buffsCooldown[0] > 0)
+        {
+            strength -= 1;
+        }
+    }
 
     private void Buff_UpdateStrength()
     {
         if (buffsCooldown[0] > 0)
         {
-            if (strength != 2) strength = 2;
+            if (strength == copyStrength) strength += 1;
         }
         else
         {
-            if (strength != 1) strength = 1;
+            if (strength != copyStrength) strength = copyStrength;
         }
     }
 
@@ -255,8 +282,6 @@ public class HumanCombat : MonoBehaviour
             }
             else
             {
-                Debug.Log("Count abilities cooldown: " + abilitiesCooldown.Count());
-                Debug.Log("Count abilities images: " + abilitiesCooldown.Count());
                 ChangeImageColor(abilitiesImages[i].GetComponent<Image>(), Color.white);
                 ChangeCooldownText(cooldownText[i].GetComponent<TMP_Text>());
 
@@ -295,7 +320,6 @@ public class HumanCombat : MonoBehaviour
         {
             if (buffsCooldown[i] > 0)
             {
-                Debug.Log("Changing... " + i);
                 buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, 485, 0);
                 buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, 460, 0);
 

@@ -65,6 +65,7 @@ public class HealthBar : MonoBehaviour
         }
         else if(current > max)
         {
+            Debug.Log("Player health: " + current);
             current = max;
         }
     }
@@ -74,8 +75,13 @@ public class HealthBar : MonoBehaviour
         return current;
     }
 
+    public void SetMaxHealth(float value)
+    {
+        max = value;
+    }
     public float GetMaxHealth()
     {
         return max;
     }
+
 }
