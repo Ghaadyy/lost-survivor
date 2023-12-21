@@ -27,7 +27,9 @@ public class BossBehaviour : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        bossHealthBar = GameObject.FindObjectsOfType<BossHealthBar>()[BossNumber];
+        bossHealthBar = FindObjectsOfType<BossHealthBar>()[BossNumber];
+
+        //GameManager.RenderBossesHealthBar(false);
     }
 
     void Die()

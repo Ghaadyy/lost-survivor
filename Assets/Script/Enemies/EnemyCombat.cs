@@ -21,15 +21,25 @@ public class EnemyCombat : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collision!");
-        GameObject player = other.gameObject;
-
-        if (player.tag == "Player")
+        try
         {
-            Debug.Log("collided with player");
-            HealthBar healthBar = GameObject.FindObjectOfType<HealthBar>();
-            Debug.Log(healthBar);
-            healthBar.SetHealth(damage);
+            if (GameManager.Instance.GameState == GameState.GamePlay)
+            {
+                Debug.Log("Collision!");
+                GameObject player = other.gameObject;
+
+                if (player.tag == "Player")
+                {
+                    Debug.Log("collided with player");
+                    HealthBar healthBar = FindObjectOfType<HealthBar>();
+                    Debug.Log(healthBar);
+                    healthBar.SetHealth(damage);
+                }
+            }
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log(e.Message);
         }
     }
 }
