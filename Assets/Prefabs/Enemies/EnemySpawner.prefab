@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db63077e8d5d1427b974dea8fb46ac9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 7312736674573681968, guid: 41c82aa275d1b434c8be3d6b28d7cdd3, type: 3}
+  Enemies:
+  - {fileID: 3623988667054703057, guid: 508fd136d80aa4c0a9bcc779905f9c51, type: 3}
+  - {fileID: 7312736674573681968, guid: 41c82aa275d1b434c8be3d6b28d7cdd3, type: 3}
   Frequency: 5
-  AmountToSpawn: 10
+  AmountToSpawn: 1

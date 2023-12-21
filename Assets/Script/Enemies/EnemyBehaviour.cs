@@ -22,15 +22,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsObstruction;
 
+    private float StuckTimer = 0;
+    private int MaxStuckDuration = 2;
+
     private void Awake()
     {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         animator = GetComponent<Animator>();
-    }
-
-    void Start()
-    {
-
     }
 
     private void Patrol()
@@ -45,13 +43,28 @@ public class EnemyBehaviour : MonoBehaviour
         if (walkPointSet)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, 0.5f * speed * Time.deltaTime);
-            transform.LookAt(destination);
+            transform.LookAt(new Vector3
+            {
+                x = destination.x,
+                y = transform.position.y,
+                z = destination.z
+            });
         }
 
         // Arrived to destination
-        if (transform.position == destination)
+        if (transform.position.x == destination.x && transform.position.z == destination.z)
         {
             animator.SetBool("walk", false);
+            walkPointSet = false;
+        }
+
+        // To prevent the enemy from getting stuck in front of an obstacle
+        if (Physics.Raycast(transform.position, transform.forward, whatIsObstruction))
+            StuckTimer += Time.deltaTime;
+
+        if (StuckTimer >= MaxStuckDuration)
+        {
+            StuckTimer = 0;
             walkPointSet = false;
         }
     }
@@ -75,7 +88,11 @@ public class EnemyBehaviour : MonoBehaviour
     void Die()
     {
         gameObject.SetActive(false);
-        // Ragdoll.SetActive(true);
+        if (Ragdoll != null)
+        {
+            Ragdoll.SetActive(true);
+            Ragdoll.transform.parent = null;
+        }
     }
 
     // Update is called once per frame
@@ -86,7 +103,7 @@ public class EnemyBehaviour : MonoBehaviour
             Die();
         }
 
-        if(healthBar.CheckIfDead())
+        if (healthBar.CheckIfDead())
         {
             Die();
         }

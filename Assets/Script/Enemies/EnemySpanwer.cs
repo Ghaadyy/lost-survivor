@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpanwer : MonoBehaviour
 {
-    public GameObject Enemy;
+    public List<GameObject> Enemies;
 
     [SerializeField]
     private int Frequency = 5;
@@ -32,7 +32,8 @@ public class EnemySpanwer : MonoBehaviour
     {
         if (timer <= 0 && Spawned < AmountToSpawn)
         {
-            Instantiate(Enemy, new Vector3(16.23f, -1.03f, 9.26f), Quaternion.identity);
+            Debug.Log("Spawned Enemy!");
+            Instantiate(Enemies[Random.Range(0, Enemies.Count)], gameObject.transform.position, Quaternion.identity);
             Spawned++;
             timer = Frequency;
         }

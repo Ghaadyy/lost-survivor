@@ -1,0 +1,17 @@
+www.InfinityPBR.com -- Thank you for supporting my work!
+
+COLOR SHIFTER
+
+The "Color Shifter" is a special editor tool and shader set, which works in URP, HDRP, and Built-In pipelines.
+
+URP/HDRP INSTRUCTIONS:
+1. Find the .unitypackage for each render pipeline in the Assets/InfinityPBR/Low Poly Support Files/Shaders
+2. Open the correct one, which will bring in the shader
+3. Find the material ("Color Shifter") for the character, and change the shader to the correct one (same name with "-URP" or "-HDRP" at the end)
+4. Success! You can also delete the shader you're not using.
+
+Please watch this video to learn more about it:
+
+https://www.youtube.com/watch?v=_8rmtficrgA
+
+The Color Shifter makes it easy to create custom color sets for characters.
