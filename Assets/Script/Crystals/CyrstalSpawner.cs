@@ -23,8 +23,11 @@ public class CyrstalSpawner : MonoBehaviour
                 50,
                 transform.position.z + z);
 
-            if (Physics.Raycast(point, -transform.up, out RaycastHit hit, whatIsGround))
+            int RocksLayer = 8;
+            if (Physics.Raycast(point, -transform.up, out RaycastHit hit))
             {
+                if (hit.transform.gameObject.layer == RocksLayer) continue;
+
                 Instantiate(Crystals[Random.Range(0, 3)], hit.point, Quaternion.identity);
                 Amount--;
             }
