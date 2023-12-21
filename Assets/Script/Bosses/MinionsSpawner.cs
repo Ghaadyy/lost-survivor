@@ -20,14 +20,17 @@ public class MinionsSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SpawnTimer >= SpawnDelay)
+        if(GameManager.Instance.GameState == GameState.GamePlay)
         {
-            SpawnMinions();
-            SpawnTimer = 0;
-        }
-        else
-        {
-            SpawnTimer += Time.deltaTime;
+            if (SpawnTimer >= SpawnDelay)
+            {
+                SpawnMinions();
+                SpawnTimer = 0;
+            }
+            else
+            {
+                SpawnTimer += Time.deltaTime;
+            }
         }
     }
 

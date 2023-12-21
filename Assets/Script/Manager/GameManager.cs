@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject[] go;
     private GameObject menu;
-    private GameObject boss;
+    private GameObject[] boss;
 
     public static void RenderUI(bool render)
     {
@@ -39,16 +39,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void RenderBossesHealthBar(bool render)
+    public static void RenderBossesHealthBar(bool render, int idx)
     {
         if (render)
         {
-            if (!Instance.boss.activeSelf) Instance.boss.SetActive(true);
+            if (!Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(true);
             MouseRotation.LockCursor();
         }
         else
         {
-            if (Instance.boss.activeSelf) Instance.boss.SetActive(false);
+            if (Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(false);
             MouseRotation.UnlockCursor();
         }
     }
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         }
         go = GameObject.FindGameObjectsWithTag("UIContainer");
         menu = GameObject.FindGameObjectWithTag("Menu");
-        boss = GameObject.FindGameObjectsWithTag("BossHealthBar")[0];
+        boss = GameObject.FindGameObjectsWithTag("BossHealthBar");
     }
     void Start()
     {
@@ -89,13 +89,15 @@ public class GameManager : MonoBehaviour
             if(Instance.GameState == GameState.GamePause)
             {
                 RenderMenu(false);
-                //RenderBossesHealthBar(true);
+                RenderBossesHealthBar(true, 0);
+                RenderBossesHealthBar(true, 1);
                 RenderUI(true);
                 Instance.GameState = GameState.GamePlay;
             }
             else if(Instance.GameState == GameState.GamePlay)
             {
-                //RenderBossesHealthBar(false);
+                RenderBossesHealthBar(false, 0);
+                RenderBossesHealthBar(false, 1);
                 RenderUI(false);
                 RenderMenu(true);
                 Instance.GameState = GameState.GamePause;

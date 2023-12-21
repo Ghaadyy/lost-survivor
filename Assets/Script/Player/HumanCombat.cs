@@ -97,7 +97,6 @@ public class HumanCombat : MonoBehaviour
             }
 
             Die();
-            //Revive();
         }
     }
 
@@ -150,6 +149,7 @@ public class HumanCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3) && currentAbilityCooldown[2] <= 0)
         {
             animator.SetTrigger("Cast");
+            currentAbilityCooldown[2] = abilitiesCooldown[2];
         }
     }
 
@@ -378,11 +378,12 @@ public class HumanCombat : MonoBehaviour
     private void ReleaseSpell()
     {
         animator.SetBool("Attack", false);
-        GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
-        sphere.transform.rotation = Quaternion.LookRotation(transform.forward);
-        sphere.GetComponent<Rigidbody>().AddForce(sphere.transform.forward * 3000);
+
+        GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, SpellCastPoint.transform.rotation);
+
+        //sphere.GetComponent<Rigidbody>().AddForce(sphere.transform.forward * 3000);
+
         Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
-        currentAbilityCooldown[2] = abilitiesCooldown[2];
     }
 
     private void PlaySpellCastingAudio()

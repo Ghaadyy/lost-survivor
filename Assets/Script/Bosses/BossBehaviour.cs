@@ -23,13 +23,19 @@ public class BossBehaviour : MonoBehaviour
 
     public int BossNumber = 0;
 
+    public static int count = 0;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         bossHealthBar = FindObjectsOfType<BossHealthBar>()[BossNumber];
 
-        //GameManager.RenderBossesHealthBar(false);
+        count++;
+        if (count == 2)
+        {
+            GameManager.RenderBossesHealthBar(false, 0);
+            GameManager.RenderBossesHealthBar(false, 1);
+        }
     }
 
     void Die()
