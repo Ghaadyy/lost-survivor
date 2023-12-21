@@ -50,14 +50,14 @@ public class HumanCombat : MonoBehaviour
 
         abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray(); //Get all spells images
         cooldownText = GameObject.FindGameObjectsWithTag("SpellCooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
-        
+
         abilitiesCooldown = new float[abilitiesCount] { 20.0f, 25.0f, 5.0f, 50.0f, 10.0f }; //Original cooldown of each ability
         currentAbilityCooldown = new float[abilitiesCount] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }; //Current cooldown of the ability
 
         buffsCooldown = new float[buffsCount]; //Buffs cooldown
         buffsImages = GameObject.FindGameObjectsWithTag("Buff").OrderBy(a => a.name).ToArray(); //Get buff images
         buffsCooldownText = GameObject.FindGameObjectsWithTag("BuffCooldown").OrderBy(a => a.name).ToArray(); //Get cooldown of each buff
-        foreach(GameObject buff in buffsImages)
+        foreach (GameObject buff in buffsImages)
         {
             buff.SetActive(false);
         }
@@ -125,7 +125,7 @@ public class HumanCombat : MonoBehaviour
 
     void Buff()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha2) && currentAbilityCooldown[1] <= 0) 
+        if (Input.GetKeyDown(KeyCode.Alpha2) && currentAbilityCooldown[1] <= 0)
         {
             animator.SetTrigger("Buff");
             currentAbilityCooldown[1] = abilitiesCooldown[1];
@@ -165,7 +165,7 @@ public class HumanCombat : MonoBehaviour
 
     void Die()
     {
-        if(healthBar.GetHealth() == 0)
+        if (healthBar.GetHealth() == 0)
         {
             isDead = true;
             animator.SetBool("Die", isDead);
@@ -265,14 +265,23 @@ public class HumanCombat : MonoBehaviour
             {
                 // Apply explosion force to the rigidbody
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
-                rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce * strength);
+                BossBehaviour boss = rb.GetComponentInChildren<BossBehaviour>();
+
+                if (boss != null)
+                {
+                    FindObjectOfType<BossHealthBar>().SetHealthBar(-explosionForce * strength);
+                }
+                else
+                {
+                    rb.GetComponentInChildren<FloatingHealthBar>().SetHealthBar(-explosionForce * strength);
+                }
             }
         }
     }
 
     void UpdateAbilitiesCooldown()
     {
-        for(int i=0; i<abilitiesCount; i++) //For each ability do the following
+        for (int i = 0; i < abilitiesCount; i++) //For each ability do the following
         {
             if (currentAbilityCooldown[i] > 0) //Decrement ability cooldown if possible
             {
@@ -301,7 +310,7 @@ public class HumanCombat : MonoBehaviour
             }
             else
             {
-                if (buffsImages[i].activeSelf) buffsImages[i].SetActive(false);                 
+                if (buffsImages[i].activeSelf) buffsImages[i].SetActive(false);
                 ChangeCooldownText(buffsCooldownText[i].GetComponent<TMP_Text>());
             }
         }
@@ -316,7 +325,7 @@ public class HumanCombat : MonoBehaviour
 
         int count = 0;
 
-        for(int i=0; i<buffsCount; i++)
+        for (int i = 0; i < buffsCount; i++)
         {
             if (buffsCooldown[i] > 0)
             {

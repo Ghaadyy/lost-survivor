@@ -15,10 +15,18 @@ public class SpellBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
-            FloatingHealthBar healthBar = collision.gameObject.GetComponentInChildren<FloatingHealthBar>();
-            healthBar.SetHealthBar(damage);
+            if (collision.gameObject.GetComponentInChildren<BossBehaviour>() != null)
+            {
+                BossHealthBar healthBar = FindObjectOfType<BossHealthBar>();
+                healthBar.SetHealthBar(damage);
+            }
+            else
+            {
+                FloatingHealthBar healthBar = collision.gameObject.GetComponentInChildren<FloatingHealthBar>();
+                healthBar.SetHealthBar(damage);
+            }
         }
 
         Destroy(gameObject);

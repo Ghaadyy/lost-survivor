@@ -9,7 +9,7 @@ public class CyrstalSpawner : MonoBehaviour
 
     public List<GameObject> Crystals;
 
-    public LayerMask whatIsGround;
+    public LayerMask whatIsGround, whatIsRock;
 
     private void Awake()
     {

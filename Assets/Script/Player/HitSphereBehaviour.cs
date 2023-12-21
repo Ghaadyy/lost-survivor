@@ -24,6 +24,13 @@ public class HitSphereBehaviour : MonoBehaviour
             {
                 enemy.SetHealthBar(player.GetPlayerDamage() * -1);
             }
+
+            BossBehaviour boss = obj.GetComponentInChildren<BossBehaviour>();
+            if (boss != null)
+            {
+                BossHealthBar bossHealthBar = FindObjectOfType<BossHealthBar>();
+                bossHealthBar.SetHealthBar(player.GetPlayerDamage() * -1);
+            }
         }
     }
 }

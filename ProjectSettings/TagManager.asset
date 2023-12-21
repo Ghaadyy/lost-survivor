@@ -16,6 +16,7 @@ TagManager:
   - ProgressBar
   - Menu
   - UIContainer
+  - BossHealthBar
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - UI
   - Obstruction
   - Ground
-  - 
+  - Rocks
   - 
   - 
   - 
