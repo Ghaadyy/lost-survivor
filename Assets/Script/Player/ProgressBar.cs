@@ -12,16 +12,20 @@ public class ProgressBar : MonoBehaviour
     public Image mask;
     public Image fill;
 
+    private HealthBar playerHealthBar;
+    private HumanCombat playerCombat;
+
     private int counter;
     void Start()
     {
         counter = 1;
         minimum = current = 0;
         maximum = 100;
+        playerHealthBar = FindAnyObjectByType<HealthBar>();
+        playerCombat = FindAnyObjectByType<HumanCombat>();
     }
     void Update()
     {
-        IncrementXP();
         FillProgressBar();
     }
 
@@ -33,17 +37,23 @@ public class ProgressBar : MonoBehaviour
         mask.fillAmount = fillBar;
     }
 
-    void IncrementXP() //Test progress bar
+    public void IncrementXP(int value) //add xp to the progess bar
     {
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        current += value;
+        if (current >= maximum)
         {
-            current += 20;
-            if(current >= maximum)
-            {
-                minimum = maximum;
-                maximum += 250 * counter;
-                counter++;
-            }
+            minimum = maximum;
+            maximum += 75 * counter;
+            counter++;
+            playerHealthBar.SetMaxHealth(playerHealthBar.GetMaxHealth() + 35); //Increment player health bar
+            playerHealthBar.SetHealth(playerHealthBar.GetMaxHealth());
+
+            playerCombat.SetPlayerStrength(0.25f); //Increment player strength
+            Debug.Log("Player strength: " + playerCombat.GetPlayerStrength());
+
+            playerCombat.IncrementPlayerLevel();
+            Debug.Log("Player level: " + playerCombat.GetPlayerLevel());
+
         }
     }
 }
