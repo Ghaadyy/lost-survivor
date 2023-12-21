@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ability
+  - Cooldown
+  - Enemy
+  - Spell
+  - Buff
+  - BuffsContainer
+  - SpellCooldown
+  - BuffCooldown
+  - SpellsContainer
+  - ProgressBar
+  - Menu
+  - UIContainer
+  - BossHealthBar
   layers:
   - Default
   - TransparentFX
@@ -11,9 +24,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Obstruction
+  - Ground
+  - Rocks
   - 
   - 
   - 
