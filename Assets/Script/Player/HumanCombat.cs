@@ -73,11 +73,14 @@ public class HumanCombat : MonoBehaviour
         fireBallAudio = SpellCastPoint.GetComponent<AudioSource>();
 
         GameManager.RenderUI(false);
+
+        playerLevel = PlayerPrefs.GetInt("level", 1);
+        strength = PlayerPrefs.GetFloat("strength", 1.0f);
     }
 
     void Update()
     {
-        if(GameManager.Instance.GameState == GameState.GamePlay)
+        if (GameManager.Instance.GameState == GameState.GamePlay)
         {
             UpdateAbilitiesCooldown();
             UpdateBuffsCooldown();
@@ -212,6 +215,7 @@ public class HumanCombat : MonoBehaviour
     public void IncrementPlayerLevel()
     {
         playerLevel++;
+        PlayerPrefs.SetInt("level", playerLevel);
     }
 
     public float GetPlayerStrength()
@@ -227,6 +231,7 @@ public class HumanCombat : MonoBehaviour
         {
             strength -= 1;
         }
+        PlayerPrefs.SetFloat("strength", strength);
     }
 
     private void Buff_UpdateStrength()

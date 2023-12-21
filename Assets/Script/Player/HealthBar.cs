@@ -17,7 +17,8 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        current = max;
+        current = PlayerPrefs.GetFloat("health", 100);
+        max = PlayerPrefs.GetFloat("maxHealth", 100);
         slider = gameObject.GetComponent<Slider>();
         slider.minValue = 0;
         slider.maxValue = 100;
@@ -63,11 +64,14 @@ public class HealthBar : MonoBehaviour
         {
             current = min;
         }
-        else if(current > max)
+        else if (current > max)
         {
             Debug.Log("Player health: " + current);
             current = max;
         }
+
+        PlayerPrefs.SetFloat("health", current);
+        PlayerPrefs.SetFloat("maxHealth", max);
     }
 
     public float GetHealth()
@@ -78,6 +82,7 @@ public class HealthBar : MonoBehaviour
     public void SetMaxHealth(float value)
     {
         max = value;
+        PlayerPrefs.SetFloat("maxHealth", max);
     }
     public float GetMaxHealth()
     {

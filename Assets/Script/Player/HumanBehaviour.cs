@@ -26,11 +26,24 @@ public class HumanBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         player = FindObjectOfType<HumanCombat>();
         source = GetComponents<AudioSource>();
+
+        float playerX = PlayerPrefs.GetFloat("positionX", transform.position.x);
+        float playerY = PlayerPrefs.GetFloat("positionY", transform.position.y);
+        float playerZ = PlayerPrefs.GetFloat("positionZ", transform.position.z);
+
+        Vector3 savedPosition = new Vector3
+        {
+            x = playerX,
+            y = playerY,
+            z = playerZ,
+        };
+
+        transform.position = savedPosition;
     }
 
     void Update()
     {
-        if(GameManager.Instance.GameState == GameState.GamePlay)
+        if (GameManager.Instance.GameState == GameState.GamePlay)
         {
             if (!player.CheckIfDead())
             {
@@ -52,6 +65,10 @@ public class HumanBehaviour : MonoBehaviour
 
                 CheckRunningTime(); //Check if the player have been running for more than 3 seconds
             }
+
+            PlayerPrefs.SetFloat("positionX", transform.position.x);
+            PlayerPrefs.SetFloat("positionY", transform.position.y);
+            PlayerPrefs.SetFloat("positionZ", transform.position.z);
         }
     }
 
@@ -107,7 +124,7 @@ public class HumanBehaviour : MonoBehaviour
         {
             transform.position += transform.forward * sprint_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool("Sprint", true);
-            if(runningTime <= 15)
+            if (runningTime <= 15)
             {
                 runningTime += Time.deltaTime;
             }
@@ -116,7 +133,7 @@ public class HumanBehaviour : MonoBehaviour
         else
         {
             animator.SetBool("Sprint", false);
-            if(runningTime > 0)
+            if (runningTime > 0)
             {
                 runningTime -= Time.deltaTime;
             }
@@ -142,7 +159,7 @@ public class HumanBehaviour : MonoBehaviour
 
     void CheckRunningTime()
     {
-        if(runningTime > 10)
+        if (runningTime > 10)
         {
             if (!source[breath_idx].isPlaying)
             {

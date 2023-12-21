@@ -18,9 +18,10 @@ public class ProgressBar : MonoBehaviour
     private int counter;
     void Start()
     {
-        counter = 1;
-        minimum = current = 0;
-        maximum = 100;
+        counter = PlayerPrefs.GetInt("xpCounter", 1);
+        minimum = PlayerPrefs.GetInt("minXP", 0);
+        current = PlayerPrefs.GetInt("XP", 0);
+        maximum = PlayerPrefs.GetInt("maxXP", 100);
         playerHealthBar = FindAnyObjectByType<HealthBar>();
         playerCombat = FindAnyObjectByType<HumanCombat>();
     }
@@ -33,9 +34,11 @@ public class ProgressBar : MonoBehaviour
     {
         float currentOffset = current - minimum;
         float maximumOffset = maximum - minimum;
-        float fillBar = (float)currentOffset/maximumOffset;
+        float fillBar = (float)currentOffset / maximumOffset;
         mask.fillAmount = fillBar;
     }
+
+    public void SetCounter(int value) => counter = value;
 
     public void IncrementXP(int value) //add xp to the progess bar
     {
@@ -55,5 +58,10 @@ public class ProgressBar : MonoBehaviour
             Debug.Log("Player level: " + playerCombat.GetPlayerLevel());
 
         }
+
+        PlayerPrefs.SetInt("XP", current);
+        PlayerPrefs.SetInt("minXP", minimum);
+        PlayerPrefs.SetInt("maxXP", maximum);
+        PlayerPrefs.SetInt("xpCounter", counter);
     }
 }
