@@ -13,6 +13,9 @@ TagManager:
   - SpellCooldown
   - BuffCooldown
   - SpellsContainer
+  - ProgressBar
+  - Menu
+  - UIContainer
   layers:
   - Default
   - TransparentFX

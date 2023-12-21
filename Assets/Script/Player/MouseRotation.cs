@@ -11,12 +11,22 @@ public class MouseRotation : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        LockCursor();
     }
 
     void Update()
     {
         y = Input.GetAxis("Mouse X");
         transform.eulerAngles = transform.eulerAngles + new Vector3 (0, y * sensitivity, 0);
+    }
+
+    public static void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public static void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
     }
 }

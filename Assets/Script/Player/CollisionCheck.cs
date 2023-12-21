@@ -21,7 +21,10 @@ public class CollisionCheck : MonoBehaviour
 
     void Update()
     {
-        FireFallingRay();
+        if(GameManager.Instance.GameState == GameState.GamePlay)
+        {
+            FireFallingRay();
+        }
     }
 
     void FireFallingRay() //Check if player is falling
