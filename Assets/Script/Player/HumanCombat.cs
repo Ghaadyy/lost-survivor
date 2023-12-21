@@ -14,9 +14,12 @@ public class HumanCombat : MonoBehaviour
     public GameObject fireBallEffect, ExplosionEffect;
     public AudioSource fireBallAudio;
 
+    public GameObject spawnPoint;
+
     private Animator animator;
 
     private HealthBar healthBar;
+
 
     private GameObject[] abilitiesImages;
     private GameObject[] cooldownText;
@@ -42,6 +45,11 @@ public class HumanCombat : MonoBehaviour
     private float explosionRadius = 10.0f;
 
     private int playerLevel = 1;
+
+    void Awake()
+    {
+        gameObject.transform.position = spawnPoint.transform.position;
+    }
 
     void Start()
     {
@@ -89,6 +97,7 @@ public class HumanCombat : MonoBehaviour
             }
 
             Die();
+            //Revive();
         }
     }
 
@@ -174,7 +183,7 @@ public class HumanCombat : MonoBehaviour
 
     void Revive()
     {
-        if (isDead)
+        if (CheckIfDead())
         {
             isDead = false;
             animator.SetBool("Die", isDead);
@@ -379,5 +388,12 @@ public class HumanCombat : MonoBehaviour
     private void PlaySpellCastingAudio()
     {
         fireBallAudio.Play();
+    }
+
+    private void SpawnAfterDeath()
+    {
+        healthBar.SetHealth(healthBar.GetMaxHealth());
+        gameObject.transform.position = spawnPoint.transform.position;
+        Revive();
     }
 }
