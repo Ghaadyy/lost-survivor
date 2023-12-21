@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5020434057136424319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9203875115029555289}
+  m_Layer: 0
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9203875115029555289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5020434057136424319}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.4709496, z: -0, w: 0.8821601}
+  m_LocalPosition: {x: 0.049, y: 0.46, z: 2.945}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1410890060886695567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4318579564467669001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,7 +105,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 7708dc3609bd5435492d431de824ddbf, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2916872624696759942, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9203875115029555289}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2171168134651339925, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
       insertIndex: -1
@@ -85,7 +119,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2171168134651339925, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6528743593014404108}
+    - targetCorrespondingSourceObject: {fileID: 2171168134651339925, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6487951960639036690}
   m_SourcePrefab: {fileID: 100100000, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
+--- !u!4 &1410890060886695567 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2916872624696759942, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
+  m_PrefabInstance: {fileID: 4318579564467669001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2724436783672667292 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2171168134651339925, guid: 98853ad042f48e942a947f626e84ab4f, type: 3}
@@ -104,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ragdoll: {fileID: 0}
+  BossNumber: 0
 --- !u!65 &8854788664833858455
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -152,3 +195,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &6487951960639036690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724436783672667292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1ab47dbcabf43d5af1305f8dc36e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sphere: {fileID: 5161219010284090935, guid: 854d713687e98425eb23e01964eb34b2, type: 3}
+  HitPoint: {fileID: 9203875115029555289}
