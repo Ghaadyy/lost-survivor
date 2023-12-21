@@ -30,12 +30,21 @@ public class BossBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         bossHealthBar = FindObjectsOfType<BossHealthBar>()[BossNumber];
 
+        bool isDead = bool.Parse(PlayerPrefs.GetString("Boss" + BossNumber, "false"));
+
+        if (isDead)
+        {
+            gameObject.SetActive(false);
+            this.isDead = isDead;
+        }
+
         count++;
         if (count == 2)
         {
             GameManager.RenderBossesHealthBar(false, 0);
             GameManager.RenderBossesHealthBar(false, 1);
         }
+
     }
 
     void Die()
@@ -48,6 +57,7 @@ public class BossBehaviour : MonoBehaviour
             Ragdoll.SetActive(true);
             Ragdoll.transform.parent = null;
         }
+        PlayerPrefs.SetString("Boss" + BossNumber, "true");
     }
 
     // Update is called once per frame

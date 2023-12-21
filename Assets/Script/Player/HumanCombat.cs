@@ -335,7 +335,7 @@ public class HumanCombat : MonoBehaviour
     void ChangeBuffPlace()
     {
         int initial = 30;
-        int JumpBy = 30;
+        int JumpBy = 60;
 
         int count = 0;
 

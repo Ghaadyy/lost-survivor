@@ -21,11 +21,11 @@ public class GameManager : MonoBehaviour
 
     public static void RenderUI(bool render)
     {
-        if(render)
+        if (render)
         {
             foreach (GameObject _go in Instance.go)
             {
-                if(!_go.activeSelf) _go.SetActive(true);
+                if (!_go.activeSelf) _go.SetActive(true);
             }
             MouseRotation.LockCursor();
         }
@@ -34,14 +34,16 @@ public class GameManager : MonoBehaviour
             foreach (GameObject _go in Instance.go)
             {
                 if (_go.activeSelf) _go.SetActive(false);
-            }        
+            }
             MouseRotation.UnlockCursor();
         }
     }
 
     public static void RenderBossesHealthBar(bool render, int idx)
     {
-        if (render)
+        bool isDead = bool.Parse(PlayerPrefs.GetString("Boss" + idx, "false"));
+
+        if (render && !isDead)
         {
             if (!Instance.boss[idx].activeSelf) Instance.boss[idx].SetActive(true);
             MouseRotation.LockCursor();
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         if (render)
         {
-            if(!Instance.menu.activeSelf) Instance.menu.SetActive(true);
+            if (!Instance.menu.activeSelf) Instance.menu.SetActive(true);
             MouseRotation.UnlockCursor();
         }
         else
@@ -79,14 +81,14 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-       RenderMenu(true);
+        RenderMenu(true);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(Instance.GameState == GameState.GamePause)
+            if (Instance.GameState == GameState.GamePause)
             {
                 RenderMenu(false);
                 RenderBossesHealthBar(true, 0);
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
                 RenderUI(true);
                 Instance.GameState = GameState.GamePlay;
             }
-            else if(Instance.GameState == GameState.GamePlay)
+            else if (Instance.GameState == GameState.GamePlay)
             {
                 RenderBossesHealthBar(false, 0);
                 RenderBossesHealthBar(false, 1);
