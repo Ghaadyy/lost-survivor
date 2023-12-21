@@ -334,7 +334,7 @@ public class HumanCombat : MonoBehaviour
 
     void ChangeBuffPlace()
     {
-        int initial = 30;
+        int initial = 40;
         int JumpBy = 60;
 
         int count = 0;
@@ -343,8 +343,8 @@ public class HumanCombat : MonoBehaviour
         {
             if (buffsCooldown[i] > 0)
             {
-                buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, 485, 0);
-                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, 460, 0);
+                buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y, 0);
+                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y, 0);
 
                 count++;
             }
