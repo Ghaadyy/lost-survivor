@@ -12,17 +12,23 @@ public class UIManager : MonoBehaviour
     {
         GameManager.RenderMenu(false);
         GameManager.RenderUI(true);
+        GameManager.RenderBossesHealthBar(true, 0);
+        GameManager.RenderBossesHealthBar(true, 1);
         GameManager.Instance.GameState = GameState.GamePlay;
 
         Debug.Log("Game start");
     }
-    // Start is called before the first frame update
+
+    public void ButtonQuitGame_Click()
+    {
+        Application.Quit();
+    }
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         

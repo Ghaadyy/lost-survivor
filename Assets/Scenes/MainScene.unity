@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18402,7 +18402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartButton: {fileID: 591626232}
-  QuitButton: {fileID: 0}
+  QuitButton: {fileID: 1679811906}
 --- !u!4 &835064036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4126129546634836, guid: 5b80f67818daed24a80bc22e88db2bb8, type: 3}
@@ -29119,6 +29119,18 @@ PrefabInstance:
       value: ButtonStart_Click
       objectReference: {fileID: 0}
     - target: {fileID: 114869539583816452, guid: c47f7ad76a5309f46a7511baa3e32bea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114996628609112464, guid: c47f7ad76a5309f46a7511baa3e32bea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 830198705}
+    - target: {fileID: 114996628609112464, guid: c47f7ad76a5309f46a7511baa3e32bea, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonQuitGame_Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 114996628609112464, guid: c47f7ad76a5309f46a7511baa3e32bea, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -40388,6 +40400,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b80f67818daed24a80bc22e88db2bb8, type: 3}
+--- !u!114 &1679811906 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114996628609112464, guid: c47f7ad76a5309f46a7511baa3e32bea, type: 3}
+  m_PrefabInstance: {fileID: 1255501269}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1680861602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52131,7 +52154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367532702962352205, guid: d2c2daeb5596d244d9a07d108038a6f4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 461
+      value: 673
       objectReference: {fileID: 0}
     - target: {fileID: 1367532702962352205, guid: d2c2daeb5596d244d9a07d108038a6f4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

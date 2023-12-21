@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,13 +23,23 @@ public class BossSphereBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("COLLIDED WITH BOSS");
-        GameObject player = other.gameObject;
-
-        if (player.tag == "Player")
+        try
         {
-            HealthBar healthBar = GameObject.FindObjectOfType<HealthBar>();
-            healthBar.SetHealth(damage);
+            if (GameManager.Instance.GameState == GameState.GamePlay)
+            {
+                Debug.Log("COLLIDED WITH BOSS");
+                GameObject player = other.gameObject;
+
+                if (player.tag == "Player")
+                {
+                    HealthBar healthBar = FindObjectOfType<HealthBar>();
+                    healthBar.SetHealth(damage);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log(e.Message);
         }
     }
 }
