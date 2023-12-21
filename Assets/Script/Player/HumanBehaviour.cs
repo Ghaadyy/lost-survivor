@@ -24,31 +24,34 @@ public class HumanBehaviour : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        player = GameObject.FindObjectOfType<HumanCombat>();
+        player = FindObjectOfType<HumanCombat>();
         source = GetComponents<AudioSource>();
     }
 
     void Update()
     {
-        if (!player.CheckIfDead())
+        if(GameManager.Instance.GameState == GameState.GamePlay)
         {
-            RunFB(KeyCode.W, KeyCode.S, "RunF", 1); // Run Forward
-            RunSideWays(KeyCode.W, KeyCode.A, KeyCode.D, "RunL"); // Run Forward Left
-            RunSideWays(KeyCode.W, KeyCode.D, KeyCode.A, "RunR"); // Run Forward Right
+            if (!player.CheckIfDead())
+            {
+                RunFB(KeyCode.W, KeyCode.S, "RunF", 1); // Run Forward
+                RunSideWays(KeyCode.W, KeyCode.A, KeyCode.D, "RunL"); // Run Forward Left
+                RunSideWays(KeyCode.W, KeyCode.D, KeyCode.A, "RunR"); // Run Forward Right
 
-            RunFB(KeyCode.S, KeyCode.W, "RunB", -1); // Run Backward
-            RunSideWays(KeyCode.S, KeyCode.A, KeyCode.D, "RunBL"); // Run Backward Left
-            RunSideWays(KeyCode.S, KeyCode.D, KeyCode.A, "RunBR"); // Run Backward Right
+                RunFB(KeyCode.S, KeyCode.W, "RunB", -1); // Run Backward
+                RunSideWays(KeyCode.S, KeyCode.A, KeyCode.D, "RunBL"); // Run Backward Left
+                RunSideWays(KeyCode.S, KeyCode.D, KeyCode.A, "RunBR"); // Run Backward Right
 
-            GoSideways(KeyCode.A, KeyCode.D, "GoLeft", -1); // Go Left
-            GoSideways(KeyCode.D, KeyCode.A, "GoRight", 1); // Go Right
+                GoSideways(KeyCode.A, KeyCode.D, "GoLeft", -1); // Go Left
+                GoSideways(KeyCode.D, KeyCode.A, "GoRight", 1); // Go Right
 
-            Sprint(); // Sprint Forward
+                Sprint(); // Sprint Forward
 
-            RollFB(KeyCode.W, KeyCode.Space, "RollF", 1); // Roll Forward
-            RollFB(KeyCode.S, KeyCode.Space, "RollB", -1); // Roll Backward
+                RollFB(KeyCode.W, KeyCode.Space, "RollF", 1); // Roll Forward
+                RollFB(KeyCode.S, KeyCode.Space, "RollB", -1); // Roll Backward
 
-            CheckRunningTime(); //Check if the player have been running for more than 3 seconds
+                CheckRunningTime(); //Check if the player have been running for more than 3 seconds
+            }
         }
     }
 
@@ -104,7 +107,10 @@ public class HumanBehaviour : MonoBehaviour
         {
             transform.position += transform.forward * sprint_speed * SpeedMultiplier * Time.deltaTime;
             animator.SetBool("Sprint", true);
-            runningTime += Time.deltaTime;
+            if(runningTime <= 15)
+            {
+                runningTime += Time.deltaTime;
+            }
 
         }
         else

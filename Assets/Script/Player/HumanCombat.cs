@@ -43,7 +43,7 @@ public class HumanCombat : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        healthBar = GameObject.FindObjectOfType<HealthBar>();
+        healthBar = FindObjectOfType<HealthBar>();
 
         abilitiesImages = GameObject.FindGameObjectsWithTag("Ability").OrderBy(a => a.name).ToArray(); //Get all spells images
         cooldownText = GameObject.FindGameObjectsWithTag("SpellCooldown").OrderBy(t => t.name).ToArray(); //Get all cooldown text for each spell
@@ -60,29 +60,33 @@ public class HumanCombat : MonoBehaviour
         }
 
         fireBallAudio = SpellCastPoint.GetComponent<AudioSource>();
+
+        GameManager.RenderUI(false);
     }
 
     void Update()
     {
-        UpdateAbilitiesCooldown();
-        UpdateBuffsCooldown();
-        Buff_UpdateStrength();
-        Buff_UpdateHealth();
-        Immune_Update();
-
-        if (!isDead)
+        if(GameManager.Instance.GameState == GameState.GamePlay)
         {
-            Heal();
-            Buff();
-            CastSpell();
-            Immune();
-            ShakeGround();
-            Punch();
-            Block();
+            UpdateAbilitiesCooldown();
+            UpdateBuffsCooldown();
+            Buff_UpdateStrength();
+            Buff_UpdateHealth();
+            Immune_Update();
+
+            if (!isDead)
+            {
+                Heal();
+                Buff();
+                CastSpell();
+                Immune();
+                ShakeGround();
+                Punch();
+                Block();
+            }
+
+            Die();
         }
-
-        Die();
-
     }
 
     void Punch()
@@ -251,6 +255,8 @@ public class HumanCombat : MonoBehaviour
             }
             else
             {
+                Debug.Log("Count abilities cooldown: " + abilitiesCooldown.Count());
+                Debug.Log("Count abilities images: " + abilitiesCooldown.Count());
                 ChangeImageColor(abilitiesImages[i].GetComponent<Image>(), Color.white);
                 ChangeCooldownText(cooldownText[i].GetComponent<TMP_Text>());
 
@@ -331,7 +337,8 @@ public class HumanCombat : MonoBehaviour
     {
         animator.SetBool("Attack", false);
         GameObject sphere = Instantiate(FireSphere, SpellCastPoint.transform.position, transform.rotation);
-        sphere.GetComponent<Rigidbody>().AddForce(transform.forward * 3000);
+        sphere.transform.rotation = Quaternion.LookRotation(transform.forward);
+        sphere.GetComponent<Rigidbody>().AddForce(sphere.transform.forward * 3000);
         Instantiate(fireBallEffect, sphere.transform.position, sphere.transform.rotation);
         currentAbilityCooldown[2] = abilitiesCooldown[2];
     }
