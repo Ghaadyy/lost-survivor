@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
 
     private GameObject[] go;
     private GameObject menu;
-    private GameObject[] boss;
+    private GameObject[] boss; //Get health bar of bosses
+    private BossBehaviour[] bossBehaviours; //Get bosses behaviour to check if boss is dead
+    private GameObject gameOverCanvas;
 
     public static void RenderUI(bool render)
     {
@@ -76,6 +78,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void RenderGameOverCanvas(bool render)
+    {
+        if (render)
+        {
+            if (!Instance.gameOverCanvas.activeSelf) Instance.gameOverCanvas.SetActive(true);
+            MouseRotation.UnlockCursor();
+        }
+        else
+        {
+            if (Instance.gameOverCanvas.activeSelf) Instance.gameOverCanvas.SetActive(false);
+        }
+    }
+
+    public static bool EndGame()
+    {
+        bool areDead = true;
+        foreach (BossBehaviour boss in Instance.bossBehaviours)
+        {
+            if (!boss.CheckIfDead())
+            {
+                areDead = false;
+            }
+        }
+
+        return areDead;
+    }
+
     void Awake()
     {
         if (Instance == null)
@@ -85,10 +114,13 @@ public class GameManager : MonoBehaviour
         go = GameObject.FindGameObjectsWithTag("UIContainer");
         menu = GameObject.FindGameObjectWithTag("Menu");
         boss = GameObject.FindGameObjectsWithTag("BossHealthBar");
+        bossBehaviours = FindObjectsOfType<BossBehaviour>();
+        gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverContainer");
     }
     void Start()
     {
         RenderMenu(true);
+        RenderGameOverCanvas(false);
     }
 
     void Update()
@@ -112,5 +144,11 @@ public class GameManager : MonoBehaviour
                 Instance.GameState = GameState.GamePause;
             }
         }
+    }
+
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.Log("PlayerPrefs cleared.");
     }
 }
