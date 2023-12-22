@@ -277,7 +277,9 @@ public class HumanCombat : MonoBehaviour
             if (col.gameObject.tag == "Enemy" && col.TryGetComponent(out Rigidbody rb))
             {
                 // Apply explosion force to the rigidbody
-                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.0f, ForceMode.Impulse);
+                Vector3 explosionDir = col.transform.position - transform.position;
+                explosionDir.y = 0;
+                rb.AddForce(explosionDir.normalized * explosionForce, ForceMode.Impulse);
                 BossBehaviour boss = rb.GetComponentInChildren<BossBehaviour>();
 
                 if (boss != null)
@@ -333,8 +335,8 @@ public class HumanCombat : MonoBehaviour
 
     void ChangeBuffPlace()
     {
-        int initial = 40;
-        int JumpBy = 60;
+        float initial = buffsImages[0].transform.position.x;
+        float JumpBy = buffsImages[0].transform.position.x + buffsImages[0].transform.position.x * 0.2f;
 
         int count = 0;
 
@@ -343,7 +345,7 @@ public class HumanCombat : MonoBehaviour
             if (buffsCooldown[i] > 0)
             {
                 buffsImages[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y, 0);
-                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y - 40, 0);
+                buffsCooldownText[i].transform.position = new Vector3(initial + JumpBy * count, buffsImages[i].transform.position.y - Screen.height * 0.06f, 0);
 
                 count++;
             }

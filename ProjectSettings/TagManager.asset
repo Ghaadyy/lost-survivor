@@ -17,6 +17,7 @@ TagManager:
   - Menu
   - UIContainer
   - BossHealthBar
+  - GameOverContainer
   layers:
   - Default
   - TransparentFX
