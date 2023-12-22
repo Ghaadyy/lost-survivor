@@ -15,13 +15,13 @@ public class EndGamePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("endpoint entered");
-        if(GameManager.Instance.GameState == GameState.GamePlay)
+        if (GameManager.Instance.GameState == GameState.GamePlay)
         {
             if (other.gameObject.tag == "Player")
             {
@@ -31,6 +31,7 @@ public class EndGamePoint : MonoBehaviour
                     GameManager.RenderUI(false);
                     GameManager.RenderMenu(false);
                     GameManager.RenderGameOverCanvas(true);
+                    GameManager.Instance.ClearPlayerPrefs();
                 }
             }
         }
