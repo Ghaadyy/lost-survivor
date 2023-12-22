@@ -167,4 +167,9 @@ public class BossBehaviour : MonoBehaviour
             animator.SetBool("walk", true);
         }
     }
+
+    public bool CheckIfDead()
+    {
+        return isDead;
+    }
 }
